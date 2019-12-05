@@ -1,0 +1,41 @@
+package com.company;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void resolveEquation(float coeff_a, float coeff_b, float coeff_c){
+
+        float discriminant = coeff_b*coeff_b - 4*coeff_a*coeff_c;
+
+        if (discriminant > 0) {
+            double root1, root2;
+            root1 =  (-coeff_b - Math.sqrt(  discriminant)) / (2 * coeff_a);
+            root2 = (-coeff_b + Math.sqrt(discriminant)) / (2 * coeff_a);
+            System.out.println("The equation has two real roots, because the discriminant is more than zero:"
+                    + "\nroot1 = " + root1 + ", root2 = " + root2);
+        }
+        else if (discriminant == 0) {
+            double root;
+            root = -coeff_b / (2 * coeff_a);
+            System.out.println("There is only one root of the equations, because the discriminant is zero: "
+                    + "\nroot = " + root);
+        }
+        else {
+            System.out.println("The equation does not have real roots, because the discriminant is less than zero!");
+        }
+    }
+
+    public static void main(String[] args) {
+        float coeff_a, coeff_b, coeff_c;
+
+        System.out.println("Print coeff_a, coeff_b and coeff_c:");
+
+        Scanner in = new Scanner(System.in);
+        coeff_a = in.nextFloat();
+        coeff_b = in.nextFloat();
+        coeff_c = in.nextFloat();
+
+        resolveEquation(coeff_a, coeff_b, coeff_c);
+    }
+}
