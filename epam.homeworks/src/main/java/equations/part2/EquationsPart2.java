@@ -1,8 +1,8 @@
-package com.company;
+package equations.part2;
 
 import java.util.Scanner;
 
-public class Main {
+public class EquationsPart2 {
 
     public static void resolveEquation(float coeffA, float coeffB, float coeffC){
 
