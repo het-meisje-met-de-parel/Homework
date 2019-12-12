@@ -2,11 +2,12 @@ package shipping.transportation;
 
 import shipping.cargo.Cargo;
 import shipping.carrier.Carrier;
+import shipping.common.AbstractEntity;
 
 import java.util.Date;
 
-public class Transportation {
-    private Long id;
+public class Transportation extends AbstractEntity {
+
     private Cargo cargo;
     private Carrier carrier;
     private String description;
@@ -19,14 +20,6 @@ public class Transportation {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -60,4 +53,11 @@ public class Transportation {
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
     }
+
+    @Override
+    public String toString () {
+        return String.format("Transportation #%d, cargo #%d, carrier #%d, billing %s, date %s",
+                id, cargo.getId(), carrier.getId(), billTo, date.toString());
+    }
+
 }

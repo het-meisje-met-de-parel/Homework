@@ -1,51 +1,31 @@
 package shipping.cargo;
 
+import shipping.common.AbstractTransportableEntity;
 import shipping.transportation.Transportation;
 
-public class Cargo {
-    private Long id;
-    private String name;
-    private int weight;
-    private CargoType cargoType;
-    private Transportation[] transportations;
+public abstract class Cargo extends AbstractTransportableEntity {
 
-    public Long getId() {
-        return id;
-    }
+    protected final CargoType cargoType;
+    protected final int weight;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Cargo (CargoType cargoType, String name, int weight) {
+        super (name);
+        this.cargoType = cargoType;
+        this.weight = weight;
     }
 
     public int getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     public CargoType getCargoType() {
         return cargoType;
     }
 
-    public void setCargoType(CargoType cargoType) {
-        this.cargoType = cargoType;
+    @Override
+    public String toString () {
+        return String.format("Cargo #%d %s (%s), weight %d, in %d transportations",
+                id, name, cargoType.name(), weight, transportations.length);
     }
 
-    public Transportation[] getTransportations() {
-        return transportations;
-    }
-
-    public void setTransportations(Transportation[] transportations) {
-        this.transportations = transportations;
-    }
 }

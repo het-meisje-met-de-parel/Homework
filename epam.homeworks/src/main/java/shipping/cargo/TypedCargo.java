@@ -1,0 +1,9 @@
+package shipping.cargo;
+
+public class TypedCargo extends Cargo {
+
+    public TypedCargo(CargoType cargoType, String name, int weight) {
+        super(cargoType, name, weight);
+    }
+
+}

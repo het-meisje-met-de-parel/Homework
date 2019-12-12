@@ -1,28 +1,15 @@
 package shipping.carrier;
 
+import shipping.common.AbstractTransportableEntity;
 import shipping.transportation.Transportation;
 
-public class Carrier {
-    private Long id;
-    private String name;
+public class Carrier extends AbstractTransportableEntity {
+
     private String address;
     private CarrierType carrierType;
-    private Transportation[] transportations;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Carrier(String name) {
+        super(name);
     }
 
     public String getAddress() {
@@ -41,11 +28,10 @@ public class Carrier {
         this.carrierType = carrierType;
     }
 
-    public Transportation[] getTransportations() {
-        return transportations;
+    @Override
+    public String toString () {
+        return String.format("Carrier #%d %s (%s), address '%s', in %d transportations",
+                id, name, carrierType.name(), address, transportations.length);
     }
 
-    public void setTransportations(Transportation[] transportations) {
-        this.transportations = transportations;
-    }
 }

@@ -2,7 +2,7 @@ package shipping.cargo;
 
 public enum CargoType {
     FOOD,
-    CLOTHER,
+    CLOTH,
     FLOWER,
-    COMPUTERS
+    COMPUTER
 }

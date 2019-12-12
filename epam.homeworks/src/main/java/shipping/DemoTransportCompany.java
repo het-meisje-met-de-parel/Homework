@@ -2,6 +2,8 @@ package shipping;
 
 import shipping.cargo.Cargo;
 import shipping.cargo.CargoType;
+import shipping.cargo.FoodCargo;
+import shipping.cargo.TypedCargo;
 import shipping.carrier.Carrier;
 import shipping.carrier.CarrierType;
 import shipping.storage.Storage;
@@ -13,55 +15,31 @@ public class DemoTransportCompany {
 
     public static void main(String[] args){
 
-        Cargo cargo1 = new Cargo();
-        cargo1.setId(1L);
-        cargo1.setName("Rose");
-        cargo1.setWeight(100);
-        cargo1.setCargoType(CargoType.FLOWER);
+        Cargo cargo1 = new TypedCargo(CargoType.FLOWER, "Rose", 100);
+        Cargo cargo2 = new TypedCargo(CargoType.FLOWER, "Tulip", 200);
+        Cargo cargo3 = new FoodCargo("Pizza", 300);
 
-
-        Cargo cargo2 = new Cargo();
-        cargo2.setId(2L);
-        cargo2.setName("Tulip");
-        cargo2.setWeight(200);
-        cargo2.setCargoType(CargoType.FLOWER);
-
-        Cargo cargo3 = new Cargo();
-        cargo3.setId(3L);
-        cargo3.setName("Pizza");
-        cargo3.setWeight(300);
-        cargo3.setCargoType(CargoType.FOOD);
-
-        Carrier carrier1 = new Carrier();
-        carrier1.setId(1L);
-        carrier1.setName("Air");
+        Carrier carrier1 = new Carrier("Air");
         carrier1.setAddress("France");
         carrier1.setCarrierType(CarrierType.PLANE);
 
-        Carrier carrier2 = new Carrier();
-        carrier2.setId(2L);
-        carrier2.setName("See");
+        Carrier carrier2 = new Carrier("See");
         carrier2.setAddress("Holland");
         carrier2.setCarrierType(CarrierType.SHIP);
 
-        Carrier carrier3 = new Carrier();
-        carrier3.setId(3L);
-        carrier3.setName("Road");
+        Carrier carrier3 = new Carrier("Road");
         carrier3.setAddress("Italy");
         carrier3.setCarrierType(CarrierType.TRAIN);
 
         Transportation transportation1 = new Transportation();
-        transportation1.setId(1L);
         transportation1.setCargo(cargo1);
         transportation1.setCarrier(carrier1);
         transportation1.setDescription("As fast as it is possible.");
         transportation1.setBillTo("1000");
         transportation1.setDate(new Date());
-        cargo1.setTransportations(new Transportation[] {transportation1});
         carrier1.setTransportations(new Transportation[] {transportation1});
 
         Transportation transportation2 = new Transportation();
-        transportation2.setId(2L);
         transportation2.setCargo(cargo2);
         transportation2.setCarrier(carrier2);
         transportation2.setDescription("As fast as it is possible.");
@@ -71,14 +49,21 @@ public class DemoTransportCompany {
         carrier2.setTransportations(new Transportation[] {transportation2});
 
         Transportation transportation3 = new Transportation();
-        transportation2.setId(3L);
-        transportation2.setCargo(cargo3);
-        transportation2.setCarrier(carrier3);
-        transportation2.setDescription("As fast as it is possible.");
-        transportation2.setBillTo("3000");
-        transportation2.setDate(new Date());
+        transportation3.setCargo(cargo3);
+        transportation3.setCarrier(carrier3);
+        transportation3.setDescription("As fast as it is possible.");
+        transportation3.setBillTo("3000");
+        transportation3.setDate(new Date());
         cargo3.setTransportations(new Transportation[] {transportation3});
-        carrier3.setTransportations(new Transportation[] {transportation3});
+
+        Transportation transportation4 = new Transportation();
+        transportation4.setCargo(cargo1);
+        transportation4.setCarrier(carrier3);
+        transportation4.setDescription("As fast as it is possible.");
+        transportation4.setBillTo("3500");
+        transportation4.setDate(new Date());
+        cargo1.setTransportations(new Transportation[] {transportation1, transportation4});
+        carrier3.setTransportations(new Transportation[] {transportation3, transportation4});
 
         Storage storage = new Storage();
         storage.addCargo(cargo1);
@@ -92,6 +77,30 @@ public class DemoTransportCompany {
         System.out.println();
         System.out.println("All carriers: \n");
         storage.printAllCarrier();
-
+        System.out.println();
+        System.out.println("Find 'Tulip' cargo in storage by id: \n");
+        System.out.println(storage.getCargoById(cargo2.getId()));
+        System.out.println();
+        System.out.println("Find 'Pizza' cargo in storage by name: \n");
+        System.out.println(storage.getCargoByName(cargo3.getName()));
+        System.out.println();
+        System.out.println("Find 'Air' cargo in storage by id: \n");
+        System.out.println(storage.getCarrierById(carrier1.getId()));
+        System.out.println();
+        System.out.println("Find 'Road' cargo in storage by id: \n");
+        System.out.println(storage.getCarrierById(carrier3.getId()));
+        System.out.println();
+        System.out.println("Find 'See' cargo in storage by name: \n");
+        System.out.println(storage.getCarrierByName(carrier2.getName()));
+        System.out.println();
+        System.out.println("Find Transportation in storage by id: \n");
+        System.out.println(storage.getTransportationById(transportation4.getId()));
+        System.out.println();
+        System.out.println("Number of cargo in storage: \n");
+        System.out.println(storage.getAllCargo().length);
+        System.out.println();
+        System.out.println("Number of carriers in storage: \n");
+        System.out.println(storage.getAllCarriers().length);
+        System.out.println();
     }
 }
