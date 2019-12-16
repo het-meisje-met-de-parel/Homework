@@ -23,25 +23,25 @@ public class Storage {
         cargoIndex++;
     }
     
-    public Cargo deleteCargo(Cargo cargo) {
-	int index = -1;
-	for (int i = 0; i < cargoIndex; i++) {
-	    if (massCargo[i].getId() == cargo.getId()) {
-		index = i;
-		break;
-	    }
-	}
+        public Cargo deleteCargo(Cargo cargo) {
+        int index = -1;
+        for (int i = 0; i < cargoIndex; i++) {
+            if (massCargo[i].getId() == cargo.getId()) {
+            index = i;
+            break;
+            }
+        }
 
-	if (index == -1) {
-	    return null;
-	}
-	Cargo value = massCargo[index];
+        if (index == -1) {
+            return null;
+        }
+        Cargo value = massCargo[index];
 
-	if (index != cargoIndex - 1) {
-	    System.arraycopy(massCargo, index + 1, massCargo, index, cargoIndex - index);
-	}
-	cargoIndex--;
-	return value;
+        if (index != cargoIndex - 1) {
+            System.arraycopy(massCargo, index + 1, massCargo, index, cargoIndex - index);
+        }
+        cargoIndex--;
+        return value;
     }
 
     public void addCarrier(Carrier carrier){
