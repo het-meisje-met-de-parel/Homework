@@ -1,6 +1,6 @@
 package shipping.common;
 
-import shipping.transportation.Transportation;
+import shipping.transportation.domain.Transportation;
 
 public abstract class AbstractTransportableEntity extends AbstractEntity {
 

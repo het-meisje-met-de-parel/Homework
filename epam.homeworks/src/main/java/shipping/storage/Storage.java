@@ -1,8 +1,8 @@
 package shipping.storage;
 
-import shipping.cargo.Cargo;
-import shipping.carrier.Carrier;
-import shipping.transportation.Transportation;
+import shipping.cargo.domain.Cargo;
+import shipping.carrier.domain.Carrier;
+import shipping.transportation.domain.Transportation;
 
 import java.util.Arrays;
 
@@ -22,6 +22,27 @@ public class Storage {
         massCargo[cargoIndex] = cargo;
         cargoIndex++;
     }
+    
+    public Cargo deleteCargo(Cargo cargo) {
+	int index = -1;
+	for (int i = 0; i < cargoIndex; i++) {
+	    if (massCargo[i].getId() == cargo.getId()) {
+		index = i;
+		break;
+	    }
+	}
+
+	if (index == -1) {
+	    return null;
+	}
+	Cargo value = massCargo[index];
+
+	if (index != cargoIndex - 1) {
+	    System.arraycopy(massCargo, index + 1, massCargo, index, cargoIndex - index);
+	}
+	cargoIndex--;
+	return value;
+    }
 
     public void addCarrier(Carrier carrier){
         if (massCarrier.length == carrierIndex){
@@ -30,29 +51,36 @@ public class Storage {
         massCarrier[carrierIndex] = carrier;
         carrierIndex++;
     }
+    
+    public Carrier deleteCarrier(Carrier carrier) {
+	int index = -1;
+	for (int i = 0; i < carrierIndex; i++) {
+	    if (massCarrier[i].getId() == carrier.getId()) {
+		index = i;
+		break;
+	    }
+	}
+
+	if (index == -1) {
+	    return null;
+	}
+	Carrier value = massCarrier[index];
+
+	if (index != cargoIndex - 1) {
+	    System.arraycopy(massCarrier, index + 1, massCarrier, index, carrierIndex - index);
+	}
+	carrierIndex--;
+	return value;
+    }
 
     public void printAllCargo(){
         for (int a = 0; (a < cargoIndex); a++){
-            /*
-            System.out.println("Id = " + massCargo[a].getId() +
-                    "\nname = " + massCargo[a].getName() +
-                    "\nweight = " + massCargo[a].getWeight() +
-                    "\ncargoType = " + massCargo[a].getCargoType() +
-                    "\nTransportation = " + massCargo[a].getTransportations().length);
-             */
             System.out.println(massCargo [a]);
         }
     }
 
     public void printAllCarrier(){
         for (int b = 0; (b < carrierIndex); b++){
-            /*
-            System.out.println("Id = " + massCarrier[b].getId() +
-                    "\nname = " + massCarrier[b].getName() +
-                    "\naddress = " + massCarrier[b].getAddress() +
-                    "\ncarrierType = " + massCarrier[b].getCarrierType() +
-                    "\nTransportation = " + massCarrier[b].getTransportations().length);
-             */
             System.out.println(massCarrier [b]);
         }
     }
