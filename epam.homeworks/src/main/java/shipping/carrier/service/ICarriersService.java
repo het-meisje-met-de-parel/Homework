@@ -1,6 +1,9 @@
 package shipping.carrier.service;
 
+import java.util.List;
+
 import shipping.carrier.domain.Carrier;
+import shipping.carrier.domain.CarrierType;
 
 public interface ICarriersService {
 
@@ -10,8 +13,10 @@ public interface ICarriersService {
 
     Carrier get(Long id);
 
-    Carrier get(String name);
+    List <Carrier> getByName (String name);
+    
+    List <Carrier> getByType (CarrierType type);
 
-    Carrier[] getAll();
+    List <Carrier> getAll();
 
 }

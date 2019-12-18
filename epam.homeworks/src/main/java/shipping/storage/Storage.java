@@ -129,24 +129,4 @@ public class Storage {
         return Arrays.copyOf(massCarrier, carrierIndex);
     }
 
-    public Transportation getTransportationById (Long id) {
-        for (int i = 0; i < cargoIndex; i++) {
-            Transportation [] trans = massCargo [i].getTransportations();
-            for (int j = 0; j < trans.length; j++) {
-                if (trans [j].getId() == id) {
-                    return trans [j];
-                }
-            }
-        }
-        for (int i = 0; i < carrierIndex; i++) {
-            Transportation [] trans = massCarrier [i].getTransportations();
-            for (int j = 0; j < trans.length; j++) {
-                if (trans [j].getId() == id) {
-                    return trans [j];
-                }
-            }
-        }
-        return null;
-    }
-
 }

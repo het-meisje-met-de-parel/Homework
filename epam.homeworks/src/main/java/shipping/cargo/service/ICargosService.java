@@ -1,6 +1,9 @@
 package shipping.cargo.service;
 
+import java.util.List;
+
 import shipping.cargo.domain.Cargo;
+import shipping.cargo.domain.CargoType;
 
 public interface ICargosService {
 
@@ -10,8 +13,10 @@ public interface ICargosService {
 
     Cargo get(Long id);
 
-    Cargo get(String name);
+    List <Cargo> getByName (String name);
+    
+    List <Cargo> getByType (CargoType type);
 
-    Cargo[] getAll();
+    List <Cargo> getAll();
 
 }

@@ -1,10 +1,13 @@
 package shipping.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import shipping.transportation.domain.Transportation;
 
 public abstract class AbstractTransportableEntity extends AbstractEntity {
 
-    protected Transportation [] transportations;
+    protected List <Transportation> transportations = new ArrayList <> ();
 
     protected final String name;
 
@@ -12,12 +15,8 @@ public abstract class AbstractTransportableEntity extends AbstractEntity {
         this.name = name;
     }
 
-    public Transportation[] getTransportations() {
+    public List <Transportation> getTransportations () {
         return transportations;
-    }
-
-    public void setTransportations(Transportation[] transportations) {
-        this.transportations = transportations;
     }
 
     public String getName() {

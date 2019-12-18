@@ -1,7 +1,6 @@
 package shipping.cargo.domain;
 
 import shipping.common.AbstractTransportableEntity;
-import shipping.transportation.domain.Transportation;
 
 public abstract class Cargo extends AbstractTransportableEntity {
 
@@ -25,7 +24,7 @@ public abstract class Cargo extends AbstractTransportableEntity {
     @Override
     public String toString () {
         return String.format("Cargo #%d %s (%s), weight %d, in %d transportations",
-                id, name, cargoType.name(), weight, transportations.length);
+                id, name, cargoType.name(), weight, transportations.size ());
     }
 
 }

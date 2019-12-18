@@ -1,16 +1,17 @@
 package shipping.transportation.repo;
 
-import shipping.carrier.domain.Carrier;
+import java.util.List;
+
 import shipping.transportation.domain.Transportation;
 
 public interface ITransportationRepo {
 
     void add(Transportation transportation);
 
-    Carrier delete(Transportation transportation);
+    Transportation delete(Transportation transportation);
 
     Transportation get(Long id);
 
-    Transportation[] getAll();
+    List <Transportation> getAll();
 
 }

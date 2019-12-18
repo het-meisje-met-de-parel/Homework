@@ -1,5 +1,7 @@
 package shipping.carrier.repo;
 
+import java.util.List;
+
 import shipping.carrier.domain.Carrier;
 
 public interface ICarrierRepo {
@@ -10,8 +12,6 @@ public interface ICarrierRepo {
 
     Carrier get(Long id);
 
-    Carrier get(String name);
-
-    Carrier[] getAll();
+    List <Carrier> getAll();
 
 }

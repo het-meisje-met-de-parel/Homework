@@ -1,39 +1,47 @@
 package shipping.cargo.repo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import shipping.cargo.domain.Cargo;
-import shipping.storage.Storage;
 
 public class CargoRepo implements ICargoRepo {
-
-    private final Storage storage;
-
-    public CargoRepo(Storage storage) {
-	this.storage = storage;
-    }
-
+    
+    private final List <Cargo> storage = new ArrayList <> ();
+    
     @Override
-    public void add(Cargo cargo) {
-	storage.addCargo(cargo);
+    public void add (Cargo cargo) {
+        storage.add (cargo);
     }
-
+    
     @Override
-    public Cargo delete(Cargo cargo) {
-	return storage.deleteCargo(cargo);
+    public Cargo delete (Cargo cargo) {
+        if (storage.remove (cargo)) {
+            return cargo;
+        }
+        
+        return null;
     }
-
+    
     @Override
-    public Cargo get(Long id) {
-	return storage.getCargoById(id);
+    public Cargo get (Long id) {
+        for (Cargo cargo : storage) {
+            if (cargo.getId ().equals (id)) {
+                return cargo;
+            }
+        }
+        
+        return null;
     }
-
+    
     @Override
-    public Cargo get(String name) {
-	return storage.getCargoByName(name);
+    public List <Cargo> getAll () {
+        List <Cargo> result = new ArrayList <> ();
+        for (Cargo cargo : storage) {
+            result.add(cargo);
+        }
+        return result;
     }
-
-    @Override
-    public Cargo[] getAll() {
-	return storage.getAllCargo();
-    }
-
+    
 }

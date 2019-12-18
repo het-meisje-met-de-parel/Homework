@@ -1,37 +1,47 @@
 package shipping.transportation.repo;
 
-import shipping.carrier.domain.Carrier;
-import shipping.storage.Storage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import shipping.transportation.domain.Transportation;
 
 public class TransportationRepo implements ITransportationRepo {
-
-    private final Storage storage;
     
-    public TransportationRepo (Storage storage) {
-        this.storage = storage;
-    }
+    private final List <Transportation> storage = new ArrayList <> ();
     
     @Override
     public void add (Transportation transportation) {
-        System.err.println ("Not supported");
+        storage.add (transportation);
     }
 
     @Override
-    public Carrier delete (Transportation transportation) {
-        System.err.println ("Not supported");
+    public Transportation delete (Transportation transportation) {
+        if (storage.remove (transportation)) {
+            return transportation;
+        }
+        
         return null;
     }
 
     @Override
     public Transportation get (Long id) {
-        return storage.getTransportationById (id);
+        for (Transportation transportation : storage) {
+            if (transportation.getId ().equals (id)) {
+                return transportation;
+            }
+        }
+        
+        return null;
     }
 
     @Override
-    public Transportation [] getAll () {
-        System.err.println ("Not supported");
-        return null;
+    public List <Transportation> getAll () {
+        List <Transportation> result = new ArrayList<>();
+        for (Transportation transportation : storage) {
+            result.add(transportation);
+        }
+        return result;
     }
     
 }

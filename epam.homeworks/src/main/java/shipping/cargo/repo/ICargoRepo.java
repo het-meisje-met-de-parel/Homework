@@ -1,5 +1,7 @@
 package shipping.cargo.repo;
 
+import java.util.List;
+
 import shipping.cargo.domain.Cargo;
 
 public interface ICargoRepo {
@@ -10,8 +12,6 @@ public interface ICargoRepo {
 
     Cargo get(Long id);
 
-    Cargo get(String name);
-
-    Cargo[] getAll();
+    List <Cargo> getAll();
 
 }

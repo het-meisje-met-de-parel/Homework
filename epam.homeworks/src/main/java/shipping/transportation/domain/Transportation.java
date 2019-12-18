@@ -12,7 +12,13 @@ public class Transportation extends AbstractEntity {
     private Carrier carrier;
     private String description;
     private String billTo;
-    private Date date;
+    
+    private Date date = new Date ();
+    
+    public Transportation (Cargo cargo, Carrier carrier) {
+        this.carrier = carrier; 
+        this.cargo = cargo;
+    }
 
     public Date getDate() {
         return date;
@@ -42,16 +48,8 @@ public class Transportation extends AbstractEntity {
         return cargo;
     }
 
-    public void setCargo(Cargo cargo) {
-        this.cargo = cargo;
-    }
-
     public Carrier getCarrier() {
         return carrier;
-    }
-
-    public void setCarrier(Carrier carrier) {
-        this.carrier = carrier;
     }
 
     @Override
