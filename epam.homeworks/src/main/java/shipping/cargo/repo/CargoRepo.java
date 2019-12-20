@@ -1,7 +1,6 @@
 package shipping.cargo.repo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import shipping.cargo.domain.Cargo;
@@ -28,7 +27,7 @@ public class CargoRepo implements ICargoRepo {
     public Cargo get (Long id) {
         for (Cargo cargo : storage) {
             if (cargo.getId ().equals (id)) {
-                return cargo;
+                return cargo.clone ();
             }
         }
         
@@ -39,7 +38,7 @@ public class CargoRepo implements ICargoRepo {
     public List <Cargo> getAll () {
         List <Cargo> result = new ArrayList <> ();
         for (Cargo cargo : storage) {
-            result.add(cargo);
+            result.add(cargo.clone ());
         }
         return result;
     }

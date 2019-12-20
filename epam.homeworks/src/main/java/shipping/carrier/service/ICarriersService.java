@@ -12,6 +12,8 @@ public interface ICarriersService {
     Carrier delete(Carrier carrier);
 
     Carrier get(Long id);
+    
+    Carrier update (Carrier carrier);
 
     List <Carrier> getByName (String name);
     

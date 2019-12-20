@@ -6,4 +6,11 @@ public class TypedCargo extends Cargo {
         super(cargoType, name, weight);
     }
 
+    @Override
+    public TypedCargo clone () {
+        TypedCargo cargo = new TypedCargo (getCargoType (), getName(), getWeight());
+        cargo.setId (getId());
+        return cargo;
+    }
+
 }

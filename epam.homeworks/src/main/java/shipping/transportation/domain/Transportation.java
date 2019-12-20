@@ -1,6 +1,7 @@
 package shipping.transportation.domain;
 
 import shipping.cargo.domain.Cargo;
+import shipping.cargo.domain.ClothCargo;
 import shipping.carrier.domain.Carrier;
 import shipping.common.AbstractEntity;
 
@@ -56,6 +57,16 @@ public class Transportation extends AbstractEntity {
     public String toString () {
         return String.format("Transportation #%d, cargo #%d, carrier #%d, billing %s, date %s",
                 id, cargo.getId(), carrier.getId(), billTo, date.toString());
+    }
+    
+    @Override
+    public Transportation clone () {
+        Transportation transportation = new Transportation (getCargo(), getCarrier());
+        transportation.setDescription (getDescription());
+        transportation.setBillTo (getBillTo());
+        transportation.setDate (getDate());
+        transportation.setId (getId());
+        return transportation;
     }
 
 }

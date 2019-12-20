@@ -12,11 +12,19 @@ public interface ICargosService {
     Cargo delete(Cargo cargo);
 
     Cargo get(Long id);
+    
+    Cargo update(Cargo cargo);
 
     List <Cargo> getByName (String name);
     
     List <Cargo> getByType (CargoType type);
 
     List <Cargo> getAll();
+    
+    List <Cargo> getSortedByName ();
+    
+    List <Cargo> getSortedByWeight ();
+    
+    List <Cargo> getSortedByNameAndWeight ();
 
 }

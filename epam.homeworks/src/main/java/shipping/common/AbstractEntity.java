@@ -2,10 +2,14 @@ package shipping.common;
 
 public abstract class AbstractEntity {
 
-    protected final Long id = IdGenerator.generateId();
-
+    protected Long id = IdGenerator.generateId();
+    
     public Long getId() {
         return id;
+    }
+    
+    protected void setId (Long id) {
+        this.id = id;
     }
     
     @Override

@@ -12,6 +12,11 @@ public abstract class Cargo extends AbstractTransportableEntity {
         this.cargoType = cargoType;
         this.weight = weight;
     }
+    
+    @Override
+    protected void setId (Long id) {
+        super.setId (id);
+    }
 
     public int getWeight() {
         return weight;
@@ -23,8 +28,11 @@ public abstract class Cargo extends AbstractTransportableEntity {
 
     @Override
     public String toString () {
-        return String.format("Cargo #%d %s (%s), weight %d, in %d transportations",
+        return String.format("Cargo #%-4d %16s (%-8s), weight %5d, in %2d transportations",
                 id, name, cargoType.name(), weight, transportations.size ());
     }
+    
+    @Override
+    public abstract Cargo clone ();
 
 }

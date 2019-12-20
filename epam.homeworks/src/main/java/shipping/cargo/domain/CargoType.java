@@ -4,5 +4,6 @@ public enum CargoType {
     FOOD,
     CLOTH,
     FLOWER,
-    COMPUTER
+    COMPUTER,
+    OTHER
 }

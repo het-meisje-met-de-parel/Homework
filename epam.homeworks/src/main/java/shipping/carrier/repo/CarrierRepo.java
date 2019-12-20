@@ -1,7 +1,6 @@
 package shipping.carrier.repo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import shipping.carrier.domain.Carrier;
@@ -28,7 +27,7 @@ public class CarrierRepo implements ICarrierRepo {
     public Carrier get (Long id) {
         for (Carrier carrier : storage) {
             if (carrier.getId ().equals (id)) {
-                return carrier;
+                return carrier.clone ();
             }
         }
         
@@ -39,7 +38,7 @@ public class CarrierRepo implements ICarrierRepo {
     public List <Carrier> getAll () {
         List <Carrier> result = new ArrayList<>();
         for (Carrier carrier : storage) {
-            result.add(carrier);
+            result.add(carrier.clone ());
         }
         return result;
     }

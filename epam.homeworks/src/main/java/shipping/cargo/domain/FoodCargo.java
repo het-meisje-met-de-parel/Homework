@@ -6,4 +6,11 @@ public class FoodCargo extends Cargo {
         super(CargoType.FOOD, name, weight);
     }
 
+    @Override
+    public FoodCargo clone () {
+        FoodCargo cargo = new FoodCargo (getName(), getWeight());
+        cargo.setId (getId());
+        return cargo;
+    }
+
 }

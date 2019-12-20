@@ -1,7 +1,6 @@
 package shipping;
 
-import shipping.cargo.domain.Cargo;
-import shipping.cargo.domain.FoodCargo;
+import shipping.cargo.domain.*;
 import shipping.cargo.repo.CargoRepo;
 import shipping.cargo.repo.ICargoRepo;
 import shipping.cargo.service.CargosService;
@@ -27,7 +26,20 @@ public class RunTransportApplication {
     public static void main (String [] args) {
         initialize ();
         
-        Cargo cargo = new FoodCargo ("Apple", 150);
+        Cargo cargo = new FoodCargo ("Apple", 175);
+        cargosService.add (cargo);
+        Cargo testCargo = cargo;
+        
+        cargo = new FoodCargo ("Bannana", 250);
+        cargosService.add (cargo);
+        
+        cargo = new FoodCargo ("Apple", 150);
+        cargosService.add (cargo);
+        
+        cargo = new TypedCargo (CargoType.OTHER, "Barrel", 3500);
+        cargosService.add (cargo);
+        
+        cargo = new ClothCargo ("Coat", 1150);
         cargosService.add (cargo);
         
         Carrier carrier = new Carrier ("Sea");
@@ -35,13 +47,22 @@ public class RunTransportApplication {
         carrier.setAddress ("Italy, Rome");
         carriersService.add (carrier);
         
-        Transportation tr = transportationsService.createAndAdd (cargo, carrier);
+        Transportation tr = transportationsService.createAndAdd (testCargo, carrier);
         tr.setDescription ("Transportation for test");
         
+        System.out.println ("All transportations:");
+        System.out.println ();
         for (Transportation transportation : transportationsService.getAll ()) {
             System.out.println (transportation);
             System.out.println (transportation.getCargo ());
             System.out.println (transportation.getCarrier ());
+        }
+        
+        System.out.println ();
+        System.out.println ("Sorted by name and weight cargos:");
+        System.err.println ();
+        for (Cargo tmpCargo : cargosService.getSortedByNameAndWeight ()) {
+            System.out.println (tmpCargo);
         }
     }
     

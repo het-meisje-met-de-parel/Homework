@@ -20,6 +20,8 @@ public interface ITransportationsService {
 
     Transportation get(Long id);
     
+    Transportation update (Transportation transportation);
+    
     List <Transportation> getByCarrier (Carrier carrier);
     
     List <Transportation> getByCargo (Cargo cargo);

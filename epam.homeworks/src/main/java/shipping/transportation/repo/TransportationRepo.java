@@ -1,7 +1,6 @@
 package shipping.transportation.repo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import shipping.transportation.domain.Transportation;
@@ -28,7 +27,7 @@ public class TransportationRepo implements ITransportationRepo {
     public Transportation get (Long id) {
         for (Transportation transportation : storage) {
             if (transportation.getId ().equals (id)) {
-                return transportation;
+                return transportation.clone ();
             }
         }
         
@@ -39,7 +38,7 @@ public class TransportationRepo implements ITransportationRepo {
     public List <Transportation> getAll () {
         List <Transportation> result = new ArrayList<>();
         for (Transportation transportation : storage) {
-            result.add(transportation);
+            result.add(transportation.clone ());
         }
         return result;
     }

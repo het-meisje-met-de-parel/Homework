@@ -39,6 +39,15 @@ public class CarriersService implements ICarriersService {
     public Carrier get (Long id) {
         return repo.get (id);
     }
+    
+    @Override
+    public Carrier update (Carrier carrier) {
+        if (delete (carrier) != null) {
+            add (carrier);
+        }
+        
+        return get (carrier.getId ());
+    }
 
     @Override
     public List <Carrier> getByName (String name) {

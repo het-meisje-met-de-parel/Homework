@@ -77,6 +77,15 @@ public class TransportationsService implements ITransportationsService {
     public Transportation get (Long id) {
         return repo.get (id);
     }
+    
+    @Override
+    public Transportation update (Transportation transportation) {
+        if (delete (transportation) != null) {
+            repo.add (transportation);
+        }
+        
+        return get (transportation.getId ());
+    }
 
     @Override
     public List <Transportation> getByCarrier (Carrier carrier) {

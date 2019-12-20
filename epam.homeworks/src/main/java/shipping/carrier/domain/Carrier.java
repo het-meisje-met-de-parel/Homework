@@ -29,8 +29,17 @@ public class Carrier extends AbstractTransportableEntity {
 
     @Override
     public String toString () {
-        return String.format("Carrier #%d %s (%s), address '%s', in %d transportations",
+        return String.format("Carrier #%-4d %16s (%-8s), address '%s', in %2d transportations",
                 id, name, carrierType.name(), address, transportations.size ());
+    }
+    
+    @Override
+    public Carrier clone () {
+        Carrier carrier = new Carrier (getName());
+        carrier.setCarrierType (getCarrierType());
+        carrier.setAddress (getAddress());
+        carrier.setId (getId ());
+        return carrier;
     }
 
 }
