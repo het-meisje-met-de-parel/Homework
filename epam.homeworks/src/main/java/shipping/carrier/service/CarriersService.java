@@ -6,6 +6,7 @@ import java.util.List;
 import shipping.carrier.domain.Carrier;
 import shipping.carrier.domain.CarrierType;
 import shipping.carrier.repo.ICarrierRepo;
+import shipping.exceptions.NotExistingEntityExeption;
 
 public class CarriersService implements ICarriersService {
     
@@ -36,12 +37,12 @@ public class CarriersService implements ICarriersService {
     }
 
     @Override
-    public Carrier get (Long id) {
+    public Carrier get (Long id) throws NotExistingEntityExeption {
         return repo.get (id);
     }
     
     @Override
-    public Carrier update (Carrier carrier) {
+    public Carrier update (Carrier carrier) throws NotExistingEntityExeption{
         if (delete (carrier) != null) {
             add (carrier);
         }

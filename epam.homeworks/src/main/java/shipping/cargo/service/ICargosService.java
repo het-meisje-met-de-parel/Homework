@@ -4,6 +4,7 @@ import java.util.List;
 
 import shipping.cargo.domain.Cargo;
 import shipping.cargo.domain.CargoType;
+import shipping.exceptions.NotExistingEntityExeption;
 
 public interface ICargosService {
 
@@ -11,9 +12,9 @@ public interface ICargosService {
 
     Cargo delete(Cargo cargo);
 
-    Cargo get(Long id);
+    Cargo get(Long id) throws NotExistingEntityExeption;
     
-    Cargo update(Cargo cargo);
+    Cargo update(Cargo cargo) throws NotExistingEntityExeption;
 
     List <Cargo> getByName (String name);
     

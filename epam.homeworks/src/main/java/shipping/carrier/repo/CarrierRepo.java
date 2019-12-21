@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shipping.carrier.domain.Carrier;
+import shipping.exceptions.NotDeletedException;
+import shipping.exceptions.NotExistingEntityExeption;
 
 public class CarrierRepo implements ICarrierRepo {
     
@@ -15,23 +17,23 @@ public class CarrierRepo implements ICarrierRepo {
     }
     
     @Override
-    public Carrier delete (Carrier carrier) {
+    public Carrier delete (Carrier carrier) throws NotDeletedException {
         if (storage.remove (carrier)) {
             return carrier;
         }
-        
-        return null;
+
+        throw new NotDeletedException("Объект не существует");
     }
     
     @Override
-    public Carrier get (Long id) {
+    public Carrier get (Long id) throws NotExistingEntityExeption {
         for (Carrier carrier : storage) {
             if (carrier.getId ().equals (id)) {
-                return carrier.clone ();
+                return carrier.clone();
             }
         }
-        
-        return null;
+
+        throw new NotExistingEntityExeption("Объект не существует");
     }
     
     @Override
@@ -40,6 +42,7 @@ public class CarrierRepo implements ICarrierRepo {
         for (Carrier carrier : storage) {
             result.add(carrier.clone ());
         }
+
         return result;
     }
     

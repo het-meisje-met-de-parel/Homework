@@ -7,6 +7,7 @@ import shipping.cargo.domain.Cargo;
 import shipping.cargo.service.ICargosService;
 import shipping.carrier.domain.Carrier;
 import shipping.carrier.service.ICarriersService;
+import shipping.exceptions.NotExistingEntityExeption;
 import shipping.transportation.domain.Transportation;
 import shipping.transportation.repo.ITransportationRepo;
 
@@ -32,7 +33,7 @@ public class TransportationsService implements ITransportationsService {
     }
 
     @Override
-    public Transportation createAndAdd (Cargo cargo, Carrier carrier) {
+    public Transportation createAndAdd (Cargo cargo, Carrier carrier) throws NotExistingEntityExeption {
         if (cargo == null || carrier == null) {
             System.err.println ("Cargo and carrier must be not null");
             return null;
@@ -59,7 +60,7 @@ public class TransportationsService implements ITransportationsService {
     }
 
     @Override
-    public Transportation delete (Transportation transportation) {
+    public Transportation delete (Transportation transportation) throws NotExistingEntityExeption {
         if (repo.delete (transportation) != null) {
             Carrier carrier = carriersService.get (transportation.getCarrier ().getId ());
             carrier.getTransportations ().remove (transportation);
@@ -74,12 +75,12 @@ public class TransportationsService implements ITransportationsService {
     }
 
     @Override
-    public Transportation get (Long id) {
+    public Transportation get (Long id) throws NotExistingEntityExeption {
         return repo.get (id);
     }
     
     @Override
-    public Transportation update (Transportation transportation) {
+    public Transportation update (Transportation transportation) throws NotExistingEntityExeption {
         if (delete (transportation) != null) {
             repo.add (transportation);
         }
@@ -88,33 +89,25 @@ public class TransportationsService implements ITransportationsService {
     }
 
     @Override
-    public List <Transportation> getByCarrier (Carrier carrier) {
+    public List <Transportation> getByCarrier (Carrier carrier)  throws NotExistingEntityExeption{
         if (carrier == null) {
             System.err.println ("Carrier must be not null");
             return Collections.emptyList();
         }
         
         carrier = carriersService.get (carrier.getId ());
-        if (carrier == null) {
-            System.err.println ("Carrier doesn't exist");
-            return null;
-        }
         
         return carrier.getTransportations ();
     }
 
     @Override
-    public List <Transportation> getByCargo (Cargo cargo) {
+    public List <Transportation> getByCargo (Cargo cargo) throws NotExistingEntityExeption {
         if (cargo == null) {
             System.err.println ("Cargo must be not null");
             return Collections.emptyList();
         }
         
         cargo = cargosService.get (cargo.getId ());
-        if (cargo == null) {
-            System.err.println ("Cargo doesn't exist");
-            return null;
-        }
         
         return cargo.getTransportations ();
     }

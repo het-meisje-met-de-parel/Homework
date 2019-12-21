@@ -7,6 +7,7 @@ import java.util.List;
 import shipping.cargo.domain.Cargo;
 import shipping.cargo.domain.CargoType;
 import shipping.cargo.repo.ICargoRepo;
+import shipping.exceptions.NotExistingEntityExeption;
 
 public class CargosService implements ICargosService {
 
@@ -37,12 +38,12 @@ public class CargosService implements ICargosService {
     }
 
     @Override
-    public Cargo get (Long id) {
+    public Cargo get (Long id) throws NotExistingEntityExeption {
         return repo.get (id);
     }
     
     @Override
-    public Cargo update (Cargo cargo) {
+    public Cargo update (Cargo cargo) throws NotExistingEntityExeption {
         if (delete (cargo) != null) {
             add (cargo);
         }

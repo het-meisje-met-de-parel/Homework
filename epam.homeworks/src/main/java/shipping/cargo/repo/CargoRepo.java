@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shipping.cargo.domain.Cargo;
+import shipping.exceptions.NotDeletedException;
+import shipping.exceptions.NotExistingEntityExeption;
 
 public class CargoRepo implements ICargoRepo {
     
@@ -13,25 +15,25 @@ public class CargoRepo implements ICargoRepo {
     public void add (Cargo cargo) {
         storage.add (cargo);
     }
-    
+
     @Override
-    public Cargo delete (Cargo cargo) {
+    public Cargo delete (Cargo cargo) throws NotDeletedException {
         if (storage.remove (cargo)) {
             return cargo;
         }
         
-        return null;
+        throw new NotDeletedException ("Объект не существует");
     }
     
     @Override
-    public Cargo get (Long id) {
+    public Cargo get (Long id) throws NotExistingEntityExeption {
         for (Cargo cargo : storage) {
             if (cargo.getId ().equals (id)) {
                 return cargo.clone ();
             }
         }
         
-        return null;
+        throw new NotExistingEntityExeption("Объект не существует");
     }
     
     @Override

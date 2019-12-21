@@ -3,6 +3,8 @@ package shipping.transportation.repo;
 import java.util.ArrayList;
 import java.util.List;
 
+import shipping.exceptions.NotDeletedException;
+import shipping.exceptions.NotExistingEntityExeption;
 import shipping.transportation.domain.Transportation;
 
 public class TransportationRepo implements ITransportationRepo {
@@ -15,23 +17,23 @@ public class TransportationRepo implements ITransportationRepo {
     }
 
     @Override
-    public Transportation delete (Transportation transportation) {
+    public Transportation delete (Transportation transportation) throws NotDeletedException {
         if (storage.remove (transportation)) {
             return transportation;
         }
-        
-        return null;
+
+        throw new NotDeletedException("Объект не существует");
     }
 
     @Override
-    public Transportation get (Long id) {
+    public Transportation get (Long id) throws NotExistingEntityExeption {
         for (Transportation transportation : storage) {
             if (transportation.getId ().equals (id)) {
                 return transportation.clone ();
             }
         }
         
-        return null;
+        throw new NotExistingEntityExeption("Объект не сущетвует");
     }
 
     @Override
