@@ -4,23 +4,11 @@ import java.util.List;
 
 import shipping.cargo.domain.Cargo;
 import shipping.cargo.domain.CargoType;
-import shipping.exceptions.NotExistingEntityExeption;
+import shipping.common.service.ITransportableEntityService;
 
-public interface ICargosService {
-
-    void add(Cargo cargo);
-
-    Cargo delete(Cargo cargo);
-
-    Cargo get(Long id) throws NotExistingEntityExeption;
-    
-    Cargo update(Cargo cargo) throws NotExistingEntityExeption;
-
-    List <Cargo> getByName (String name);
+public interface ICargosService extends ITransportableEntityService <Cargo> {
     
     List <Cargo> getByType (CargoType type);
-
-    List <Cargo> getAll();
     
     List <Cargo> getSortedByName ();
     

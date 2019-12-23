@@ -1,7 +1,5 @@
 package shipping.exceptions;
 
-import shipping.RunTransportApplication;
-
 public class NotDeletedException extends RuntimeException {
 
     public NotDeletedException () {

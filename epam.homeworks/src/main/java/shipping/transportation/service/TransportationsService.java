@@ -2,24 +2,31 @@ package shipping.transportation.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import shipping.cargo.domain.Cargo;
 import shipping.cargo.service.ICargosService;
 import shipping.carrier.domain.Carrier;
 import shipping.carrier.service.ICarriersService;
+import shipping.common.service.AbstractEntityService;
+import shipping.exceptions.IdentifierMissedException;
 import shipping.exceptions.NotExistingEntityExeption;
 import shipping.transportation.domain.Transportation;
 import shipping.transportation.repo.ITransportationRepo;
 
-public class TransportationsService implements ITransportationsService {
-    
-    private final ITransportationRepo repo;
+public class TransportationsService extends AbstractEntityService <Transportation> implements ITransportationsService {
     
     private ICarriersService carriersService;
     private ICargosService cargosService;
     
     public TransportationsService (ITransportationRepo repo) {
-        this.repo = repo;
+        super (repo);
+    }
+    
+    @Override
+    public void add (Transportation entity) throws IdentifierMissedException {
+        String message = "Explicit `add` operaion is prohibited for TransportationService";
+        throw new UnsupportedOperationException (message);
     }
     
     @Override
@@ -34,23 +41,11 @@ public class TransportationsService implements ITransportationsService {
 
     @Override
     public Transportation createAndAdd (Cargo cargo, Carrier carrier) throws NotExistingEntityExeption {
-        if (cargo == null || carrier == null) {
-            System.err.println ("Cargo and carrier must be not null");
-            return null;
-        }
+        Objects.requireNonNull (carrier);
+        Objects.requireNonNull (cargo);
         
         carrier = carriersService.get (carrier.getId ());
         cargo = cargosService.get (cargo.getId ());
-        
-        if (carrier == null) {
-            System.err.println ("Carrier doesn't exist");
-            return null;
-        }
-        
-        if (cargo == null) {
-            System.err.println ("Cargo doesn't exist");
-            return null;
-        }
         
         Transportation transportation = new Transportation (cargo, carrier);
         carrier.getTransportations ().add (transportation);
@@ -75,20 +70,6 @@ public class TransportationsService implements ITransportationsService {
     }
 
     @Override
-    public Transportation get (Long id) throws NotExistingEntityExeption {
-        return repo.get (id);
-    }
-    
-    @Override
-    public Transportation update (Transportation transportation) throws NotExistingEntityExeption {
-        if (delete (transportation) != null) {
-            repo.add (transportation);
-        }
-        
-        return get (transportation.getId ());
-    }
-
-    @Override
     public List <Transportation> getByCarrier (Carrier carrier)  throws NotExistingEntityExeption{
         if (carrier == null) {
             System.err.println ("Carrier must be not null");
@@ -110,11 +91,6 @@ public class TransportationsService implements ITransportationsService {
         cargo = cargosService.get (cargo.getId ());
         
         return cargo.getTransportations ();
-    }
-
-    @Override
-    public List <Transportation> getAll () {
-        return repo.getAll ();
     }
     
 }

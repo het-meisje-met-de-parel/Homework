@@ -3,66 +3,28 @@ package shipping.cargo.service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import shipping.cargo.domain.Cargo;
 import shipping.cargo.domain.CargoType;
 import shipping.cargo.repo.ICargoRepo;
-import shipping.exceptions.NotExistingEntityExeption;
+import shipping.common.service.AbstractTransportableEntityService;
+import shipping.exceptions.IdentifierMissedException;
 
-public class CargosService implements ICargosService {
-
-    private final ICargoRepo repo;
+public class CargosService extends AbstractTransportableEntityService <Cargo> implements ICargosService {
     
     public CargosService (ICargoRepo repo) {
-        this.repo = repo;
+        super (repo);
     }
     
     @Override
-    public void add (Cargo cargo) {
-        if (cargo.getId () == null) {
-            System.err.println ("Cargo doesn't have id");
-            return;
+    public void add (Cargo cargo) throws IdentifierMissedException {
+        Objects.requireNonNull (cargo);
+        if (cargo.getCargoType () == null) {
+            throw new IdentifierMissedException ("Entity type is null");
         }
         
-        if (cargo.getName () == null || cargo.getCargoType () == null) {
-            System.err.println ("Cargo doesn't have name or type");
-            return;
-        }
-        
-        repo.add (cargo);
-    }
-
-    @Override
-    public Cargo delete (Cargo cargo) {
-        return repo.delete (cargo);
-    }
-
-    @Override
-    public Cargo get (Long id) throws NotExistingEntityExeption {
-        return repo.get (id);
-    }
-    
-    @Override
-    public Cargo update (Cargo cargo) throws NotExistingEntityExeption {
-        if (delete (cargo) != null) {
-            add (cargo);
-        }
-        
-        return get (cargo.getId ());
-    }
-
-    @Override
-    public List <Cargo> getByName (String name) {
-        List <Cargo> result = new ArrayList <> ();
-        if (name == null) { return result; }
-        
-        for (Cargo cargo : getAll ()) {
-            if (name.equals (cargo.getName ())) {
-                result.add (cargo);
-            }
-        }
-        
-        return result;
+        super.add (cargo);
     }
 
     @Override
@@ -77,11 +39,6 @@ public class CargosService implements ICargosService {
         }
         
         return result;
-    }
-    
-    @Override
-    public List <Cargo> getAll () {
-        return repo.getAll ();
     }
     
     @Override

@@ -19,8 +19,6 @@ import shipping.transportation.repo.TransportationRepo;
 import shipping.transportation.service.ITransportationsService;
 import shipping.transportation.service.TransportationsService;
 
-import java.io.IOException;
-
 public class RunTransportApplication {
     
     public static ITransportationsService transportationsService;
@@ -78,8 +76,10 @@ public class RunTransportApplication {
             cargosService.delete (nonExistingCargo);
         } catch (NotDeletedException nde) {
             System.err.println (nde);
+        } catch (NotExistingEntityExeption neee) {
+            System.err.println (neee);
         }
-        System.out.println("Код после исключения");
+        System.out.println("Code after the exception handler");
     }
     
     public static void initialize () {

@@ -1,11 +1,10 @@
 package shipping.transportation.domain;
 
-import shipping.cargo.domain.Cargo;
-import shipping.cargo.domain.ClothCargo;
-import shipping.carrier.domain.Carrier;
-import shipping.common.AbstractEntity;
-
 import java.util.Date;
+
+import shipping.cargo.domain.Cargo;
+import shipping.carrier.domain.Carrier;
+import shipping.common.domain.AbstractEntity;
 
 public class Transportation extends AbstractEntity {
 

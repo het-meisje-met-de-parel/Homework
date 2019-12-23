@@ -1,4 +1,6 @@
-package shipping.common;
+package shipping.common.domain;
+
+import shipping.common.IdGenerator;
 
 public abstract class AbstractEntity {
 
@@ -27,5 +29,8 @@ public abstract class AbstractEntity {
     public int hashCode () {
         return getId ().intValue ();
     }
+    
+    @Override
+    public abstract AbstractEntity clone ();
 
 }

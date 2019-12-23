@@ -1,4 +1,4 @@
-package shipping.common;
+package shipping.common.domain;
 
 import java.util.ArrayList;
 import java.util.List;
