@@ -1,6 +1,9 @@
 package application;
 
 import static java.util.Collections.singletonList;
+
+import java.io.IOException;
+
 import static cargo.domain.CargoField.NAME;
 import static cargo.domain.CargoField.WEIGHT;
 import static common.solutions.search.OrderType.ASC;
@@ -15,6 +18,7 @@ import cargo.service.CargoService;
 import carrier.service.CarrierService;
 import common.solutions.search.OrderType;
 import common.solutions.utils.CollectionUtils;
+import storage.initor.FileStorageInitor;
 import storage.initor.InMemoryStorageInitor;
 import storage.initor.StorageInitor;
 import transportation.service.TransportationService;
@@ -36,9 +40,18 @@ public class Application {
     cargoService = ServiceHolder.getInstance().getCargoService();
     carrierService = ServiceHolder.getInstance().getCarrierService();
     transportationService = ServiceHolder.getInstance().getTransportationService();
-
-    StorageInitor storageInitor = new InMemoryStorageInitor();
-    storageInitor.initStorage();
+    
+    StorageInitor storageInitor = new FileStorageInitor ("storage.in");
+    try {        
+        storageInitor.initStorage();
+    } catch (IOException ioe) {
+        storageInitor = new InMemoryStorageInitor();
+        try {
+            storageInitor.initStorage ();            
+        } catch (IOException __) {
+            System.err.println (ioe.getMessage ());
+        }
+    }
 
     printStorageData();
     demoSearchOperations();

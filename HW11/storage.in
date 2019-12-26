@@ -1,0 +1,20 @@
+// object name ...
+
+// cargo <name> <type> <weight>
+cargo Apple food 120
+
+// carrier <name> <type> <address...>
+carrier Sea ship Italy, Venice
+carrier Cloud plane Germany, Frankfurt
+
+cargo Banana food 160
+
+// transportation <cargo> <carrier> <bill to> <start date> <description...>
+transportation 1 2 _ 2019-12-26 (No description)
+
+cargo Coconut food 215
+cargo Dress clothers 780
+
+carrier Pig-pig car Australia, Melbourne
+
+transportation 4 8 _ 2019-12-26 (No description 2)
