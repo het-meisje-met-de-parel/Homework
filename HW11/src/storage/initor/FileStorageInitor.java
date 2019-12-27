@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 
 import application.serviceholder.ServiceHolder;
 import cargo.domain.Cargo;
@@ -14,6 +15,7 @@ import cargo.service.CargoService;
 import carrier.domain.Carrier;
 import carrier.domain.CarrierType;
 import carrier.service.CarrierService;
+import common.business.exception.unchecked.FileIllegalFormatException;
 import transportation.domain.Transportation;
 import transportation.service.TransportationService;
 
@@ -55,38 +57,45 @@ public class FileStorageInitor implements StorageInitor {
                 number++;
                 
                 if (line.strip ().length () == 0) { continue; }
-                processStorageLine (number, line.strip ().split ("\\s+"));
+                
+                try {                    
+                    processStorageLine (line.strip ().split ("\\s+"));
+                } catch (FileIllegalFormatException fife) {
+                    final String message = "[WARNING] File parsing error: " 
+                        + String.format (fife.getMessage (), number);
+                    System.err.println (message);
+                }
             }
         }
     }
     
-    private void processStorageLine (int line, String [] tokens) {
+    private void processStorageLine (String [] tokens) throws FileIllegalFormatException {
         switch (tokens [0].toLowerCase ()) {
             case "cargo":
-                processCargo (line, tokens);
+                processCargo (tokens);
                 break;
                 
             case "carrier":
-                processCarrier (line, tokens);
+                processCarrier (tokens);
                 break;
                 
             case "transportation":
-                processTransportation (line, tokens);
+                processTransportation (tokens);
                 break;
                 
             default:
                 if (!tokens [0].startsWith ("//")) {
-                    String message = "Unexpected input in line " + line;
-                    System.err.println (message);
+                    final String message = "Unexpected input `" + tokens [0] + "` in line %d";
+                    throw new FileIllegalFormatException (message);
                 }
                 break;
         }
     }
     
-    private void processCargo (int line, String [] tokens) {
+    private void processCargo (String [] tokens) throws FileIllegalFormatException {
         if (tokens.length < 4) {
-            System.err.println ("Not enough arguments for cargo object in line " + line);
-            return;
+            String message = "Not enough arguments for cargo object in line %d";
+            throw new FileIllegalFormatException (message);
         }
         
         String name = tokens [1];
@@ -94,16 +103,18 @@ public class FileStorageInitor implements StorageInitor {
         CargoType type = CargoType.valueOf (tokens [2].toUpperCase ());
         int weight = Integer.parseInt (tokens [3]);
         
-        @SuppressWarnings ("preview")
-        Cargo cargo = switch (type) {
-            case FOOD     -> new FoodCargo ();
-            case CLOTHERS -> new ClothersCargo ();
-            default       -> null;
+        Cargo cargo = null; 
+        
+        switch (type) {
+            case FOOD:
+                cargo = new FoodCargo ();
+            case CLOTHERS: 
+                cargo = new ClothersCargo ();
         };
         
         if (cargo == null) {
-            System.err.println ("Cargo has unexpected type in line " + line);
-            return;
+            String message = "Cargo has unexpected type in line %d";
+            throw new FileIllegalFormatException (message);
         }
         
         cargo.setName (name);
@@ -112,10 +123,10 @@ public class FileStorageInitor implements StorageInitor {
         cargoService.save (cargo);
     }
     
-    private void processCarrier (int line, String [] tokens) {
+    private void processCarrier (String [] tokens) throws FileIllegalFormatException {
         if (tokens.length < 4) {
-            System.err.println ("Not enough arguments for carrier object in line " + line);
-            return;
+            String message = "Not enough arguments for carrier object in line %d";
+            throw new FileIllegalFormatException (message);
         }
         
         String name = tokens [1];
@@ -137,10 +148,10 @@ public class FileStorageInitor implements StorageInitor {
         carrierService.save (carrier);
     }
     
-    private void processTransportation (int line, String [] tokens) {
+    private void processTransportation (String [] tokens) throws IllegalFormatException {
         if (tokens.length < 6) {
-            System.err.println ("Not enough arguments for transportation object in line " + line);
-            return;
+            String message = "Not enough arguments for transportation object in line %d";
+            throw new FileIllegalFormatException (message);
         }
         
         long cargoId   = Long.parseLong (tokens [1]);
@@ -157,14 +168,14 @@ public class FileStorageInitor implements StorageInitor {
         
         Cargo cargo = cargoService.findById (cargoId);
         if (cargo == null) {
-            System.err.println ("Wrong cargo id in line " + line);
-            return;
+            final String message = "Wrong cargo id in line %d";
+            throw new FileIllegalFormatException (message);
         }
         
         Carrier carrier = carrierService.findById (carrierId);
         if (carrier == null) {
-            System.err.println ("Wrong carrier id in line " + line);
-            return;
+            final String message = "Wrong carrier id in line %d";
+            throw new FileIllegalFormatException (message);
         }
         
         Transportation transportation = new Transportation ();
