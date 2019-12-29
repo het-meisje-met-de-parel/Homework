@@ -13,9 +13,9 @@
     <carrier address="Germany" id="2" name="Cloud" type="plane" />
   </carriers>
   <transportations>
-    <transportation billTo="" cargo="4" carrier="2"
+    <transportation billTo="" cargo="3" carrier="1"
       date="29.12.2019" description="" />
-    <transportation billTo="" cargo="1" carrier="3"
+    <transportation billTo="" cargo="0" carrier="2"
       date="29.12.2019" description="Test transportation" />
   </transportations>
 </storage>

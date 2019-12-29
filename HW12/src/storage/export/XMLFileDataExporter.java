@@ -110,7 +110,7 @@ public class XMLFileDataExporter implements StorageExporter {
             parent.appendChild (node);
             
             node.setAttribute ("id", String.valueOf (index));
-            id2index.put (cargo.getId (), index + 1);
+            id2index.put (cargo.getId (), index);
             index++;
             
             node.setAttribute ("type", cargo.getCargoType ().name ().toLowerCase ());
@@ -130,7 +130,7 @@ public class XMLFileDataExporter implements StorageExporter {
             parent.appendChild (node);
             
             node.setAttribute ("id", String.valueOf (index));
-            id2index.put (carrier.getId (), index + 1);
+            id2index.put (carrier.getId (), index);
             index++;
             
             node.setAttribute ("type", carrier.getCarrierType ().name ().toLowerCase ());
