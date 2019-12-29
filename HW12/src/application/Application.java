@@ -1,11 +1,16 @@
 package application;
 
-import static java.util.Collections.singletonList;
+import static java.util.Collections.*;
 import static cargo.domain.CargoField.NAME;
 import static cargo.domain.CargoField.WEIGHT;
 import static common.solutions.search.OrderType.ASC;
 import static common.solutions.search.OrderType.DESC;
 import static storage.initor.StorageInitorFactory.getStorageInitor;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import application.serviceholder.ServiceHolder;
 import application.serviceholder.StorageType;
@@ -17,14 +22,11 @@ import carrier.service.CarrierService;
 import common.business.exception.checked.InitStorageException;
 import common.solutions.search.OrderType;
 import common.solutions.utils.CollectionUtils;
+import storage.export.StorageExporter;
+import storage.export.XMLFileDataExporter;
 import storage.initor.InitStorageType;
 import storage.initor.StorageInitor;
 import transportation.service.TransportationService;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 
 public class Application {
 
@@ -40,13 +42,16 @@ public class Application {
       carrierService = ServiceHolder.getInstance().getCarrierService();
       transportationService = ServiceHolder.getInstance().getTransportationService();
 
-      StorageInitor storageInitor = getStorageInitor(InitStorageType.TEXT_FILE);
+      StorageInitor storageInitor = getStorageInitor(InitStorageType.XML_FILE);
       storageInitor.initStorage();
 
       printStorageData();
       demoSearchOperations();
       demoSortOperations();
       demoExceptions();
+      
+      StorageExporter storageExporter = new XMLFileDataExporter ("export-storage.xml");
+      storageExporter.exportStoarage ();
     } catch (InitStorageException e) {
       e.getCause().printStackTrace();
     }

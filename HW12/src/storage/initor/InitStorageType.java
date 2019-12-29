@@ -1,5 +1,7 @@
 package storage.initor;
 
 public enum InitStorageType {
-  MEMORY, TEXT_FILE
+  
+    MEMORY, TEXT_FILE, XML_FILE
+    
 }
