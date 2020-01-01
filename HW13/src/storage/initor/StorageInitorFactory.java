@@ -2,6 +2,7 @@ package storage.initor;
 
 import storage.initor.fileinitor.TextFileDataInitor;
 import storage.initor.fileinitor.XmlDomFileDataInitor;
+import storage.initor.fileinitor.sax.SAXParserFileDataInitor;
 
 public final class StorageInitorFactory {
 
@@ -20,6 +21,9 @@ public final class StorageInitorFactory {
       }
       case XML_DOM_FILE:{
         return new XmlDomFileDataInitor();
+      }
+      case XML_SAX_PARSER : {
+          return new SAXParserFileDataInitor ();
       }
       default: {
         throw new RuntimeException("Unknown storage init type " + initStorageType);

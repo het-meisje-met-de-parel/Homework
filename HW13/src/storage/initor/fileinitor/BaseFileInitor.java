@@ -68,35 +68,36 @@ public abstract class BaseFileInitor implements StorageInitor {
     }
   }
 
-  protected static class ParsedTransportation {
-    private String cargoRef;
-    private String carrierRef;
-    private Transportation transportation;
-
-    public String getCargoRef() {
-      return cargoRef;
-    }
-
-    public void setCargoRef(String cargoRef) {
-      this.cargoRef = cargoRef;
-    }
-
-    public String getCarrierRef() {
-      return carrierRef;
-    }
-
-    public void setCarrierRef(String carrierRef) {
-      this.carrierRef = carrierRef;
-    }
-
-    public Transportation getTransportation() {
-      return transportation;
-    }
-
-    public void setTransportation(
-        Transportation transportation) {
-      this.transportation = transportation;
-    }
+  public static class ParsedTransportation extends Transportation {
+    
+      private String cargoRef;
+      private String carrierRef;
+      private Transportation transportation;
+      
+      public String getCargoRef() {
+        return cargoRef;
+      }
+      
+      public void setCargoRef(String cargoRef) {
+        this.cargoRef = cargoRef;
+      }
+      
+      public String getCarrierRef() {
+        return carrierRef;
+      }
+      
+      public void setCarrierRef(String carrierRef) {
+        this.carrierRef = carrierRef;
+      }
+      
+      public Transportation getTransportation() {
+        return transportation;
+      }
+      
+      public void setTransportation(
+          Transportation transportation) {
+        this.transportation = transportation;
+      }
   }
 
 }
