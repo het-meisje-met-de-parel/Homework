@@ -25,6 +25,10 @@ public abstract class BaseEntity implements Serializable {
         }
         
         BaseEntity entity = (BaseEntity) obj;
+        if (id == null && entity.id != null) {
+            return false;
+        }
+        
         return (id == null && entity.id == null) || id.equals (entity.id);
     }
     
