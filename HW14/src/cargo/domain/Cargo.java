@@ -6,7 +6,7 @@ import transportation.domain.Transportation;
 import java.util.List;
 
 public abstract class Cargo extends BaseEntity {
-
+    
   protected String name;
   protected int weight;
   protected List<Transportation> transportations;

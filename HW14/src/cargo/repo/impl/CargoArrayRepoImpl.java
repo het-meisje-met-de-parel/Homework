@@ -6,16 +6,16 @@ import cargo.search.CargoSearchCondition;
 import common.solutions.utils.ArrayUtils;
 import common.solutions.utils.CollectionUtils;
 import storage.IdGenerator;
+import storage.Storage;
 
 import java.util.*;
 
 import static common.business.repo.CommonRepoHelper.findEntityIndexInArrayStorageById;
-import static storage.Storage.cargoArray;
-import static storage.Storage.cargoIndex;
 
 public class CargoArrayRepoImpl extends CommonCargoRepo {
 
   private static final Cargo[] EMPTY_CARGO_ARRAY = new Cargo[0];
+  private static Storage storage = Storage.getInstance ();
 
   @Override
   public Cargo getByIdFetchingTransportations(long id) {
@@ -34,10 +34,10 @@ public class CargoArrayRepoImpl extends CommonCargoRepo {
   }
 
   private Cargo[] getByNameIncludingNullElements(String name) {
-    Cargo[] result = new Cargo[cargoArray.length];
+    Cargo[] result = new Cargo[storage.cargoArray.length];
 
     int curIndex = 0;
-    for (Cargo carrier : cargoArray) {
+    for (Cargo carrier : storage.cargoArray) {
       if (carrier != null && Objects.equals(carrier.getName(), name)) {
         result[curIndex++] = carrier;
       }
@@ -91,7 +91,7 @@ public class CargoArrayRepoImpl extends CommonCargoRepo {
 
   @Override
   public Cargo findById(Long id) {
-    for (Cargo cargo : cargoArray) {
+    for (Cargo cargo : storage.cargoArray) {
       if (cargo != null && id != null && id.equals(cargo.getId())) {
         return cargo;
       }
@@ -102,15 +102,15 @@ public class CargoArrayRepoImpl extends CommonCargoRepo {
 
   @Override
   public void save(Cargo cargo) {
-    if (cargoIndex == cargoArray.length) {
-      Cargo[] newCargos = new Cargo[cargoArray.length * 2];
-      ArrayUtils.copyArray(cargoArray, newCargos);
-      cargoArray = newCargos;
+    if (storage.cargoIndex == storage.cargoArray.length) {
+      Cargo[] newCargos = new Cargo[storage.cargoArray.length * 2];
+      ArrayUtils.copyArray(storage.cargoArray, newCargos);
+      storage.cargoArray = newCargos;
     }
 
     cargo.setId(IdGenerator.generateId());
-    cargoArray[cargoIndex] = cargo;
-    cargoIndex++;
+    storage.cargoArray[storage.cargoIndex] = cargo;
+    storage.cargoIndex++;
   }
 
   @Override
@@ -120,20 +120,20 @@ public class CargoArrayRepoImpl extends CommonCargoRepo {
 
   @Override
   public boolean deleteById(Long id) {
-    Integer indexToDelete = findEntityIndexInArrayStorageById(cargoArray, id);
+    Integer indexToDelete = findEntityIndexInArrayStorageById(storage.cargoArray, id);
 
     if (indexToDelete == null) {
       return false;
     } else {
-      ArrayUtils.removeElement(cargoArray, indexToDelete);
+      ArrayUtils.removeElement(storage.cargoArray, indexToDelete);
       return true;
     }
   }
 
   @Override
   public List<Cargo> getAll() {
-    Cargo[] cargos = excludeNullableElementsFromArray(cargoArray);
-    return cargos.length == 0 ? Collections.emptyList() : Arrays.asList(cargoArray);
+    Cargo[] cargos = excludeNullableElementsFromArray(storage.cargoArray);
+    return cargos.length == 0 ? Collections.emptyList() : Arrays.asList(storage.cargoArray);
   }
 
   @Override

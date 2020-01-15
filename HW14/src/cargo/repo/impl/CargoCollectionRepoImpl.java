@@ -5,13 +5,14 @@ import cargo.domain.Cargo;
 import cargo.search.CargoSearchCondition;
 import common.solutions.utils.CollectionUtils;
 import storage.IdGenerator;
+import storage.Storage;
 
 import java.util.*;
 
-import static storage.Storage.cargoCollection;
-
 public class CargoCollectionRepoImpl extends CommonCargoRepo {
 
+  private static Storage storage = Storage.getInstance ();
+    
   @Override
   public Cargo getByIdFetchingTransportations(long id) {
     return findById(id);
@@ -21,7 +22,7 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
   public Cargo[] findByName(String name) {
     List<Cargo> result = new ArrayList<>();
 
-    for (Cargo carrier : cargoCollection) {
+    for (Cargo carrier : storage.cargoCollection) {
       if (Objects.equals(carrier.getName(), name)) {
         result.add(carrier);
       }
@@ -46,7 +47,7 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
 
   @Override
   public Cargo findById(Long id) {
-    for (Cargo carrier : cargoCollection) {
+    for (Cargo carrier : storage.cargoCollection) {
       if (id != null && id.equals(carrier.getId())) {
         return carrier;
       }
@@ -58,7 +59,7 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
   @Override
   public void save(Cargo cargo) {
     cargo.setId(IdGenerator.generateId());
-    cargoCollection.add(cargo);
+    storage.cargoCollection.add(cargo);
   }
 
   @Override
@@ -68,7 +69,7 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
 
   @Override
   public boolean deleteById(Long id) {
-    Iterator<Cargo> iter = cargoCollection.iterator();
+    Iterator<Cargo> iter = storage.cargoCollection.iterator();
 
     boolean removed = false;
     while (iter.hasNext()) {
@@ -84,12 +85,12 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
 
   @Override
   public List<Cargo> getAll() {
-    return cargoCollection;
+    return storage.cargoCollection;
   }
 
   @Override
   public int countAll() {
-    return cargoCollection.size();
+    return storage.cargoCollection.size();
   }
 
 

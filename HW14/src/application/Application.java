@@ -31,7 +31,7 @@ import static storage.initor.StorageInitorFactory.getStorageInitor;
 
 public class Application {
 
-  private static final String SEPARATOR = "--------------";
+  public static final String SEPARATOR = "--------------";
   private static CargoService cargoService;
   private static CarrierService carrierService;
   private static TransportationService transportationService;

@@ -3,6 +3,7 @@ package transportation.repo.impl;
 
 import common.solutions.utils.ArrayUtils;
 import storage.IdGenerator;
+import storage.Storage;
 import transportation.domain.Transportation;
 import transportation.repo.TransportationRepo;
 
@@ -11,30 +12,29 @@ import java.util.Collections;
 import java.util.List;
 
 import static common.business.repo.CommonRepoHelper.findEntityIndexInArrayStorageById;
-import static storage.Storage.transportationArray;
-import static storage.Storage.transportationIndex;
 
 public class TransportationArrayRepoImpl implements TransportationRepo {
 
   private static final Transportation[] EMPTY_TRANSPORTATION_ARRAY = new Transportation[0];
+  private static Storage storage = Storage.getInstance ();
 
   @Override
   public void save(Transportation transportation) {
-    if (transportationIndex == transportationArray.length) {
+    if (storage.transportationIndex == storage.transportationArray.length) {
       Transportation[] newTransportations =
-          new Transportation[transportationArray.length * 2];
-      ArrayUtils.copyArray(transportationArray, newTransportations);
-      transportationArray = newTransportations;
+          new Transportation[storage.transportationArray.length * 2];
+      ArrayUtils.copyArray(storage.transportationArray, newTransportations);
+      storage.transportationArray = newTransportations;
     }
 
     transportation.setId(IdGenerator.generateId());
-    transportationArray[transportationIndex] = transportation;
-    transportationIndex++;
+    storage.transportationArray[storage.transportationIndex] = transportation;
+    storage.transportationIndex++;
   }
 
   @Override
   public Transportation findById(Long id) {
-    for (Transportation transportation : transportationArray) {
+    for (Transportation transportation : storage.transportationArray) {
       if (transportation != null && transportation.getId().equals(id)) {
         return transportation;
       }
@@ -45,9 +45,9 @@ public class TransportationArrayRepoImpl implements TransportationRepo {
 
   @Override
   public List<Transportation> getAll() {
-    Transportation[] transportations = excludeNullableElementsFromArray(transportationArray);
+    Transportation[] transportations = excludeNullableElementsFromArray(storage.transportationArray);
     return transportations.length == 0 ? Collections.emptyList()
-        : Arrays.asList(transportationArray);
+        : Arrays.asList(storage.transportationArray);
   }
 
   @Override
@@ -87,12 +87,12 @@ public class TransportationArrayRepoImpl implements TransportationRepo {
 
   @Override
   public boolean deleteById(Long id) {
-    Integer indexToDelete = findEntityIndexInArrayStorageById(transportationArray, id);
+    Integer indexToDelete = findEntityIndexInArrayStorageById(storage.transportationArray, id);
 
     if (indexToDelete == null) {
       return false;
     } else {
-      ArrayUtils.removeElement(transportationArray, indexToDelete);
+      ArrayUtils.removeElement(storage.transportationArray, indexToDelete);
       return true;
     }
   }

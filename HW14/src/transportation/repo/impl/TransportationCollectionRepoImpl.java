@@ -2,25 +2,26 @@ package transportation.repo.impl;
 
 
 import storage.IdGenerator;
+import storage.Storage;
 import transportation.domain.Transportation;
 import transportation.repo.TransportationRepo;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static storage.Storage.transportationCollection;
-
 public class TransportationCollectionRepoImpl implements TransportationRepo {
 
+  private static Storage storage = Storage.getInstance ();
+    
   @Override
   public void save(Transportation transportation) {
     transportation.setId(IdGenerator.generateId());
-    transportationCollection.add(transportation);
+    storage.transportationCollection.add(transportation);
   }
 
   @Override
   public Transportation findById(Long id) {
-    for (Transportation transportation : transportationCollection) {
+    for (Transportation transportation : storage.transportationCollection) {
       if (transportation.getId().equals(id)) {
         return transportation;
       }
@@ -31,7 +32,7 @@ public class TransportationCollectionRepoImpl implements TransportationRepo {
 
   @Override
   public List<Transportation> getAll() {
-    return transportationCollection;
+    return storage.transportationCollection;
   }
 
   @Override
@@ -43,7 +44,7 @@ public class TransportationCollectionRepoImpl implements TransportationRepo {
   public boolean deleteById(Long id) {
     boolean deleted = false;
 
-    Iterator<Transportation> iter = transportationCollection.iterator();
+    Iterator<Transportation> iter = storage.transportationCollection.iterator();
     while (iter.hasNext()) {
       if (iter.next().getId().equals(id)) {
         iter.remove();
@@ -56,6 +57,6 @@ public class TransportationCollectionRepoImpl implements TransportationRepo {
 
   @Override
   public int countAll() {
-    return transportationCollection.size();
+    return storage.transportationCollection.size();
   }
 }

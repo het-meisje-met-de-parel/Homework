@@ -4,25 +4,26 @@ package carrier.repo.impl;
 import carrier.domain.Carrier;
 import carrier.repo.CarrierRepo;
 import storage.IdGenerator;
+import storage.Storage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-import static storage.Storage.carrierCollection;
-
 public class CarrierCollectionRepoImpl implements CarrierRepo {
 
+  private static Storage storage = Storage.getInstance ();
+    
   @Override
   public void save(Carrier carrier) {
     carrier.setId(IdGenerator.generateId());
-    carrierCollection.add(carrier);
+    storage.carrierCollection.add(carrier);
   }
 
   @Override
   public Carrier findById(Long id) {
-    for (Carrier carrier : carrierCollection) {
+    for (Carrier carrier : storage.carrierCollection) {
       if (carrier.getId().equals(id)) {
         return carrier;
       }
@@ -40,7 +41,7 @@ public class CarrierCollectionRepoImpl implements CarrierRepo {
   public Carrier[] findByName(String name) {
     List<Carrier> result = new ArrayList<>();
 
-    for (Carrier carrier : carrierCollection) {
+    for (Carrier carrier : storage.carrierCollection) {
       if (Objects.equals(carrier.getName(), name)) {
         result.add(carrier);
       }
@@ -51,7 +52,7 @@ public class CarrierCollectionRepoImpl implements CarrierRepo {
 
   @Override
   public boolean deleteById(Long id) {
-    Iterator<Carrier> iter = carrierCollection.iterator();
+    Iterator<Carrier> iter = storage.carrierCollection.iterator();
 
     boolean removed = false;
     while (iter.hasNext()) {
@@ -67,12 +68,12 @@ public class CarrierCollectionRepoImpl implements CarrierRepo {
 
   @Override
   public List<Carrier> getAll() {
-    return carrierCollection;
+    return storage.carrierCollection;
   }
 
   @Override
   public int countAll() {
-    return carrierCollection.size();
+    return storage.carrierCollection.size();
   }
 
   @Override

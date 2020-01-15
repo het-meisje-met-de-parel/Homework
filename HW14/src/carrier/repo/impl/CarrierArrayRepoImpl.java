@@ -5,6 +5,7 @@ import carrier.domain.Carrier;
 import carrier.repo.CarrierRepo;
 import common.solutions.utils.ArrayUtils;
 import storage.IdGenerator;
+import storage.Storage;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,24 +13,23 @@ import java.util.List;
 import java.util.Objects;
 
 import static common.business.repo.CommonRepoHelper.findEntityIndexInArrayStorageById;
-import static storage.Storage.carrierArray;
-import static storage.Storage.carrierIndex;
 
 public class CarrierArrayRepoImpl implements CarrierRepo {
 
   private static final Carrier[] EMPTY_CARRIER_ARRAY = new Carrier[0];
+  private static Storage storage = Storage.getInstance ();
 
   @Override
   public void save(Carrier carrier) {
-    if (carrierIndex == carrierArray.length) {
-      Carrier[] newCarriers = new Carrier[carrierArray.length * 2];
-      ArrayUtils.copyArray(carrierArray, newCarriers);
-      carrierArray = newCarriers;
+    if (storage.carrierIndex == storage.carrierArray.length) {
+      Carrier[] newCarriers = new Carrier[storage.carrierArray.length * 2];
+      ArrayUtils.copyArray(storage.carrierArray, newCarriers);
+      storage.carrierArray = newCarriers;
     }
 
     carrier.setId(IdGenerator.generateId());
-    carrierArray[carrierIndex] = carrier;
-    carrierIndex++;
+    storage.carrierArray[storage.carrierIndex] = carrier;
+    storage.carrierIndex++;
   }
 
   @Override
@@ -53,10 +53,10 @@ public class CarrierArrayRepoImpl implements CarrierRepo {
   }
 
   private Carrier[] getByNameIncludingNullElements(String name) {
-    Carrier[] result = new Carrier[carrierArray.length];
+    Carrier[] result = new Carrier[storage.carrierArray.length];
 
     int curIndex = 0;
-    for (Carrier carrier : carrierArray) {
+    for (Carrier carrier : storage.carrierArray) {
       if (carrier != null && Objects.equals(carrier.getName(), name)) {
         result[curIndex++] = carrier;
       }
@@ -92,8 +92,8 @@ public class CarrierArrayRepoImpl implements CarrierRepo {
 
   @Override
   public List<Carrier> getAll() {
-    Carrier[] carriers = excludeNullableElementsFromArray(carrierArray);
-    return carriers.length == 0 ? Collections.emptyList() : Arrays.asList(carrierArray);
+    Carrier[] carriers = excludeNullableElementsFromArray(storage.carrierArray);
+    return carriers.length == 0 ? Collections.emptyList() : Arrays.asList(storage.carrierArray);
   }
 
   @Override
@@ -103,7 +103,7 @@ public class CarrierArrayRepoImpl implements CarrierRepo {
 
   @Override
   public Carrier findById(Long id) {
-    for (Carrier carrier : carrierArray) {
+    for (Carrier carrier : storage.carrierArray) {
       if (carrier != null && carrier.getId().equals(id)) {
         return carrier;
       }
@@ -114,12 +114,12 @@ public class CarrierArrayRepoImpl implements CarrierRepo {
 
   @Override
   public boolean deleteById(Long id) {
-    Integer indexToDelete = findEntityIndexInArrayStorageById(carrierArray, id);
+    Integer indexToDelete = findEntityIndexInArrayStorageById(storage.carrierArray, id);
 
     if (indexToDelete == null) {
       return false;
     } else {
-      ArrayUtils.removeElement(carrierArray, indexToDelete);
+      ArrayUtils.removeElement(storage.carrierArray, indexToDelete);
       return true;
     }
   }
