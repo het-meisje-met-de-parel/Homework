@@ -16,7 +16,7 @@ import javax.xml.parsers.SAXParser;
 
 public class XmlSaxFileDataInitor extends BaseFileInitor {
 
-  private static final String FILE = "/ru/epam/javacore/lesson_16_concurrency/initdata/xmldata.xml";
+  private static final String FILE = "/ru/epam/javacore/lesson_13_sax_parser_recursion/initdata/xmldata.xml";
 
   @Override
   public void initStorage() throws InitStorageException {

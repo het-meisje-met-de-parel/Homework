@@ -23,12 +23,8 @@ import transportation.domain.Transportation;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class XmlDomFileDataInitor extends BaseFileInitor {
 
@@ -59,13 +55,7 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
     }
   }
 
-  private File getFileWithInitData() throws IOException {
-    return FileUtils
-        .createFileFromResource(
-            XmlDomFileDataInitor.class, "init-data", "lesson12", FILE);
-  }
-
-  private Map<String, Cargo> parseCargos(Document doc) throws ParseException {
+  protected Map<String, Cargo> parseCargos(Document doc) throws ParseException {
     Map<String, Cargo> cargos = new LinkedHashMap<>();
 
     Element root = getOnlyElement(doc, "cargos");
@@ -89,10 +79,10 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
     if (CargoType.FOOD.equals(cargoType)) {
       FoodCargo foodCargo = new FoodCargo();
       Date expirationDate = JavaUtilDateUtils
-          .valueOf(getOnlyElementTextContent(cargoElem, "expirationDate"));
+              .valueOf(getOnlyElementTextContent(cargoElem, "expirationDate"));
       foodCargo.setExpirationDate(expirationDate);
       foodCargo.setStoreTemperature(
-          Integer.parseInt(getOnlyElementTextContent(cargoElem, "storeTemperature")));
+              Integer.parseInt(getOnlyElementTextContent(cargoElem, "storeTemperature")));
       cargo = foodCargo;
     } else {
       ClothersCargo clothersCargo = new ClothersCargo();
@@ -104,10 +94,10 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
     cargo.setName(getOnlyElementTextContent(cargoElem, "name"));
     cargo.setWeight(Integer.parseInt(getOnlyElementTextContent(cargoElem, "weight")));
 
-    return new SimpleEntry<>(id, cargo);
+    return new AbstractMap.SimpleEntry<>(id, cargo);
   }
 
-  private Map<String, Carrier> parseCarriers(Document doc) throws ParseException {
+  protected Map<String, Carrier> parseCarriers(Document doc) throws ParseException {
     Map<String, Carrier> carriers = new LinkedHashMap<>();
 
     Element root = getOnlyElement(doc, "carriers");
@@ -132,10 +122,16 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
     String carrierTypeStr = getOnlyElementTextContent(carrierElement, "type");
     carrier.setCarrierType(CarrierType.valueOf(carrierTypeStr));
 
-    return new SimpleEntry<>(id, carrier);
+    return new AbstractMap.SimpleEntry<>(id, carrier);
   }
 
-  private List<ParsedTransportation> parseTransportationsData(Document doc) throws ParseException {
+  protected File getFileWithInitData() throws IOException {
+    return FileUtils
+        .createFileFromResource(
+            XmlDomFileDataInitor.class, "init-data", "lesson12", FILE);
+  }
+
+  protected List<ParsedTransportation> parseTransportationsData(Document doc) throws ParseException {
     List<ParsedTransportation> result = new ArrayList<>();
 
     Element root = getOnlyElement(doc, "transportations");

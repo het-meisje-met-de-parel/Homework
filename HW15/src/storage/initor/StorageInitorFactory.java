@@ -1,5 +1,6 @@
 package storage.initor;
 
+import storage.initor.concurent.ConcurentInitor;
 import storage.initor.fileinitor.TextFileDataInitor;
 import storage.initor.fileinitor.xml.dom.XmlDomFileDataInitor;
 import storage.initor.fileinitor.xml.sax.XmlSaxFileDataInitor;
@@ -24,6 +25,9 @@ public final class StorageInitorFactory {
             }
             case XML_SAX_FILE: {
                 return new XmlSaxFileDataInitor();
+            }
+            case CONCURENT: {
+                return new ConcurentInitor();
             }
             default: {
                 throw new RuntimeException("Unknown storage init type " + initStorageType);
