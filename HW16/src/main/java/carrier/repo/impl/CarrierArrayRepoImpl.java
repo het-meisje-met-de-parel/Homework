@@ -97,11 +97,6 @@ public class CarrierArrayRepoImpl implements CarrierRepo {
   }
 
   @Override
-  public int countAll() {
-    return this.getAll().size();
-  }
-
-  @Override
   public Carrier findById(Long id) {
     for (Carrier carrier : carrierArray) {
       if (carrier != null && carrier.getId().equals(id)) {

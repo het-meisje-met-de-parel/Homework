@@ -20,14 +20,6 @@ public class TransportationServiceImpl implements TransportationService {
   }
 
   @Override
-  public void printAll() {
-    List<Transportation> allTransportations = transportationRepo.getAll();
-    for (Transportation transportation : allTransportations) {
-      System.out.println(transportation);
-    }
-  }
-
-  @Override
   public void save(Transportation transportation) {
     transportationRepo.save(transportation);
   }

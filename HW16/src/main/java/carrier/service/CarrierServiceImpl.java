@@ -76,14 +76,6 @@ public class CarrierServiceImpl implements CarrierService {
   }
 
   @Override
-  public void printAll() {
-    List<Carrier> carriers = carrierRepo.getAll();
-    for (Carrier carrier : carriers) {
-      System.out.println(carrier);
-    }
-  }
-
-  @Override
   public boolean update(Carrier carrier) {
     if (carrier != null) {
       carrierRepo.update(carrier);

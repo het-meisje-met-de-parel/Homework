@@ -18,19 +18,9 @@ public abstract class CommonCargoRepo implements CargoRepo {
 
     private static final List<CargoField> FIELDS_ORDER_TO_SORT_CARGOS = Arrays.asList(NAME, WEIGHT);
 
-    private static final Comparator<Cargo> CARGO_NAME_COMPARATOR = new Comparator<Cargo>() {
-        @Override
-        public int compare(Cargo o1, Cargo o2) {
-            return SimpleComparator.STRING_COMPARATOR.compare(o1.getName(), o2.getName());
-        }
-    };
+    private static final Comparator<Cargo> CARGO_NAME_COMPARATOR = Comparator.comparing(Cargo::getName);
 
-    private static final Comparator<Cargo> CARGO_WEIGHT_COMPARATOR = new Comparator<Cargo>() {
-        @Override
-        public int compare(Cargo o1, Cargo o2) {
-            return Integer.compare(o1.getWeight(), o2.getWeight());
-        }
-    };
+    private static final Comparator<Cargo> CARGO_WEIGHT_COMPARATOR = Comparator.comparing(Cargo::getWeight);
 
     protected Comparator<Cargo> createCargoComparator(CargoSearchCondition searchCondition) {
         Comparator<Cargo> result = null;

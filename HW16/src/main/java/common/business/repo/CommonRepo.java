@@ -1,6 +1,7 @@
 package common.business.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CommonRepo<TYPE, ID> {
 
@@ -14,5 +15,8 @@ public interface CommonRepo<TYPE, ID> {
 
   List<TYPE> getAll();
 
-  int countAll();
+  default int countAll() {
+    return Optional.ofNullable(getAll()).map(List::size).orElse(0);
+  }
+
 }

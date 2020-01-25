@@ -34,41 +34,32 @@ public class ConcurentInitor extends XmlDomFileDataInitor {
     }
 
     public void initThreads() {
-        cargoThread = new Thread(new Runnable () {
-            @Override
-            public void run() {
-                try {
-                    File file = getFileWithInitData();
-                    Document document = XmlDomUtils.getDocument(file);
-                    cargoMap = parseCargos(document);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        cargoThread = new Thread(() ->  {
+            try {
+                File file = getFileWithInitData();
+                Document document = XmlDomUtils.getDocument(file);
+                cargoMap = parseCargos(document);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
-        carrierThread = new Thread(new Runnable () {
-            @Override
-            public void run() {
-                try {
-                    File file = getFileWithInitData();
-                    Document document = XmlDomUtils.getDocument(file);
-                    carrierMap = parseCarriers(document);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        carrierThread = new Thread(() -> {
+            try {
+                File file = getFileWithInitData();
+                Document document = XmlDomUtils.getDocument(file);
+                carrierMap = parseCarriers(document);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
-        transportationsThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    File file = getFileWithInitData();
-                    Document document = XmlDomUtils.getDocument(file);
-                    transportations = parseTransportationsData(document);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        transportationsThread = new Thread(() -> {
+            try {
+                File file = getFileWithInitData();
+                Document document = XmlDomUtils.getDocument(file);
+                transportations = parseTransportationsData(document);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

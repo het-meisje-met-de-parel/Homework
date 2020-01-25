@@ -53,9 +53,4 @@ public class TransportationCollectionRepoImpl implements TransportationRepo {
     }
     return deleted;
   }
-
-  @Override
-  public int countAll() {
-    return transportationCollection.size();
-  }
 }

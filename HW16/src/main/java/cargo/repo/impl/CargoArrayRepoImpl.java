@@ -139,10 +139,4 @@ public class CargoArrayRepoImpl extends CommonCargoRepo {
     Cargo[] cargos = excludeNullableElementsFromArray(cargoArray);
     return cargos.length == 0 ? Collections.emptyList() : Arrays.asList(cargoArray);
   }
-
-  @Override
-  public int countAll() {
-    return getAll().size();
-  }
-
 }

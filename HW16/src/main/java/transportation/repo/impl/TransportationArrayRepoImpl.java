@@ -50,11 +50,6 @@ public class TransportationArrayRepoImpl implements TransportationRepo {
         : Arrays.asList(transportationArray);
   }
 
-  @Override
-  public int countAll() {
-    return getAll().size();
-  }
-
   private Transportation[] excludeNullableElementsFromArray(Transportation[] transportations) {
     int sizeOfArrWithNotNullElems = 0;
 

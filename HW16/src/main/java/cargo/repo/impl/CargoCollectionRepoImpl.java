@@ -91,10 +91,4 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
     return cargoCollection;
   }
 
-  @Override
-  public int countAll() {
-    return cargoCollection.size();
-  }
-
-
 }

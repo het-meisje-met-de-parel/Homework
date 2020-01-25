@@ -71,11 +71,6 @@ public class CarrierCollectionRepoImpl implements CarrierRepo {
   }
 
   @Override
-  public int countAll() {
-    return carrierCollection.size();
-  }
-
-  @Override
   public boolean update(Carrier carrier) {
     return true;
   }

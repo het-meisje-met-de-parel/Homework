@@ -1,6 +1,8 @@
 package common.business.service;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import java.util.List;
+import java.util.Optional;
 
 public interface CommonService<TYPE, ID> {
   TYPE findById(ID id);
@@ -13,7 +15,11 @@ public interface CommonService<TYPE, ID> {
 
   List<TYPE> getAll();
 
-  int countAll();
+  default int countAll() {
+    return Optional.ofNullable(getAll()).orElse(List.of()).size();
+  }
 
-  void printAll();
+  default void printAll() {
+    Optional.ofNullable(getAll()).orElse(List.of()).forEach(System.out::println);
+  }
 }
