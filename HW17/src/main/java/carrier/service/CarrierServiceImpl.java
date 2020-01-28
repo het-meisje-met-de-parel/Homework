@@ -1,13 +1,13 @@
 package carrier.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import carrier.domain.Carrier;
 import carrier.exception.unchecked.CarrierDeleteConstraintViolationException;
 import carrier.repo.CarrierRepo;
 import transportation.domain.Transportation;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class CarrierServiceImpl implements CarrierService {
 
@@ -25,27 +25,19 @@ public class CarrierServiceImpl implements CarrierService {
 
   @Override
   public Carrier findById(Long id) {
-    if (id != null) {
-      return carrierRepo.findById(id);
-    }
-
-    return null;
+    return Optional.ofNullable (id).map(carrierRepo::findById).orElse(null);
   }
 
   @Override
   public Carrier getByIdFetchingTransportations(Long id) {
-    if (id != null) {
-      return carrierRepo.getByIdFetchingTransportations(id);
-    }
-
-    return null;
+      return Optional.ofNullable (id).map(carrierRepo::getByIdFetchingTransportations).orElse(null);
   }
 
   @Override
   public List<Carrier> findByName(String name) {
     Carrier[] found = carrierRepo.findByName(name);
 
-    return (found == null || found.length == 0) ? Collections.emptyList() : Arrays.asList(found);
+    return (found == null || found.length == 0) ? List.of () : Arrays.asList(found);
   }
 
   @Override
@@ -54,15 +46,8 @@ public class CarrierServiceImpl implements CarrierService {
   }
 
   @Override
-  public int countAll() {
-    return this.carrierRepo.countAll();
-  }
-
-  @Override
   public boolean deleteById(Long id) {
-    Carrier carrier = this.getByIdFetchingTransportations(id);
-
-    if (carrier != null) {
+    return Optional.ofNullable (getByIdFetchingTransportations(id)).map ((carrier) -> {
       List<Transportation> transportations = carrier.getTransportations();
       boolean hasTransportations = transportations != null && transportations.size() > 0;
       if (hasTransportations) {
@@ -70,17 +55,11 @@ public class CarrierServiceImpl implements CarrierService {
       }
 
       return carrierRepo.deleteById(id);
-    } else {
-      return false;
-    }
+    }).orElse(false);
   }
 
   @Override
   public boolean update(Carrier carrier) {
-    if (carrier != null) {
-      carrierRepo.update(carrier);
-    }
-
-    return false;
+    return Optional.ofNullable (carrier).map(carrierRepo::update).orElse (false);
   }
 }

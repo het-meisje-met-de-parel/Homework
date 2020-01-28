@@ -4,6 +4,7 @@ import transportation.domain.Transportation;
 import transportation.repo.TransportationRepo;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TransportationServiceImpl implements TransportationService {
 
@@ -36,15 +37,6 @@ public class TransportationServiceImpl implements TransportationService {
 
   @Override
   public boolean update(Transportation transportation) {
-    if (transportation != null) {
-      return transportationRepo.update(transportation);
-    }
-
-    return false;
-  }
-
-  @Override
-  public int countAll() {
-    return transportationRepo.countAll();
+    return Optional.ofNullable (transportation).map(transportationRepo::update).orElse(false);
   }
 }

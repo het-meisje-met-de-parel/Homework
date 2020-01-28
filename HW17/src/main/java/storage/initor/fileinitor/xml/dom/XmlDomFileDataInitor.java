@@ -3,10 +3,21 @@ package storage.initor.fileinitor.xml.dom;
 import static common.solutions.utils.xml.dom.XmlDomUtils.getOnlyElement;
 import static common.solutions.utils.xml.dom.XmlDomUtils.getOnlyElementTextContent;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import cargo.domain.Cargo;
 import cargo.domain.CargoType;
 import cargo.domain.ClothersCargo;
@@ -19,12 +30,6 @@ import common.solutions.utils.JavaUtilDateUtils;
 import common.solutions.utils.xml.dom.XmlDomUtils;
 import storage.initor.fileinitor.BaseFileInitor;
 import transportation.domain.Transportation;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.*;
-import java.util.AbstractMap.SimpleEntry;
 
 public class XmlDomFileDataInitor extends BaseFileInitor {
 

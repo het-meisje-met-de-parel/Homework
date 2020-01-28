@@ -1,25 +1,13 @@
 package common.solutions.utils.xml.dom;
 
-import cargo.domain.Cargo;
-import cargo.domain.CargoType;
-import cargo.domain.ClothersCargo;
-import cargo.domain.FoodCargo;
-import carrier.domain.Carrier;
-import carrier.domain.CarrierType;
-import common.solutions.utils.JavaUtilDateUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import java.io.File;
-import java.text.ParseException;
-import java.util.AbstractMap;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public final class XmlDomUtils {
     private XmlDomUtils() {

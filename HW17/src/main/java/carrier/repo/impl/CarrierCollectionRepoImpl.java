@@ -40,13 +40,13 @@ public class CarrierCollectionRepoImpl implements CarrierRepo {
   public Carrier[] findByName(String name) {
     List<Carrier> result = new ArrayList<>();
 
-    for (Carrier carrier : carrierCollection) {
-      if (Objects.equals(carrier.getName(), name)) {
-        result.add(carrier);
-      }
-    }
-
-    return result.toArray(new Carrier[0]);
+    carrierCollection.forEach ((carrier) -> {
+        if (Objects.equals (carrier.getName (), name)) {
+            result.add (carrier);
+        }
+    });
+    
+    return result.toArray (Carrier []::new);
   }
 
   @Override
