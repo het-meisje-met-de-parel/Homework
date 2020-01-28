@@ -1,0 +1,10 @@
+<person>
+    <name>Ivanka</name>
+    <lastName prev="Petrova">Ivanova</lastName>
+    <children>
+        <child schoolBoy="y">
+            <name>Petr</name>
+            <hobby>football</hobby>
+        </child>
+    </children>
+</person>

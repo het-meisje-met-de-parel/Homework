@@ -1,0 +1,22 @@
+package common.business.repo;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface CommonRepo<TYPE, ID> {
+
+  TYPE findById(ID id);
+
+  void save(TYPE entity);
+
+  boolean update(TYPE entity);
+
+  boolean deleteById(ID id);
+
+  List<TYPE> getAll();
+
+  default int countAll() {
+    return Optional.ofNullable(getAll()).map(List::size).orElse(0);
+  }
+
+}
