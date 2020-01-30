@@ -16,7 +16,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class ReportDefaultService implements ReportService {
 
@@ -70,13 +69,18 @@ public class ReportDefaultService implements ReportService {
   private List<String> getCargosReportData() {
     List<Cargo> cargos = cargoService.getAll();
 
-    List<String> result = new ArrayList<>();
+    List<String> result = Collections.emptyList();
     if (isNotEmpty(cargos)) {
-      
-      cargos.forEach (cargo -> Optional.ofNullable(cargo).map(this::cargoAsString).ifPresent(result::add));
+      result = new ArrayList<>();
+
+      for (Cargo cargo : cargos) {
+        if (cargo != null) {
+          result.add(cargoAsString(cargo));
+        }
+      }
     }
-    
-    return Collections.unmodifiableList (result);
+
+    return result;
   }
 
   private String cargoAsString(Cargo cargo) {
