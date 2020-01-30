@@ -4,16 +4,21 @@ package cargo.repo.impl;
 import static storage.Storage.cargoCollection;
 
 import cargo.domain.Cargo;
+import cargo.domain.CargoType;
+import cargo.domain.FoodCargo;
 import cargo.search.CargoSearchCondition;
 import common.solutions.utils.CollectionUtils;
 import storage.IdGenerator;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CargoCollectionRepoImpl extends CommonCargoRepo {
 
@@ -24,15 +29,7 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
 
   @Override
   public Cargo[] findByName(String name) {
-    List<Cargo> result = new ArrayList<>();
-
-    for (Cargo carrier : cargoCollection) {
-      if (Objects.equals(carrier.getName(), name)) {
-        result.add(carrier);
-      }
-    }
-
-    return result.toArray(new Cargo[0]);
+    return getAll().stream().filter((a) -> a.getName().equals(name)).toArray(Cargo [] :: new);
   }
 
   @Override
@@ -96,6 +93,5 @@ public class CargoCollectionRepoImpl extends CommonCargoRepo {
   public int countAll() {
     return cargoCollection.size();
   }
-
 
 }

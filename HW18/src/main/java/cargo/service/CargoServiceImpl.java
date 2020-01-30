@@ -1,15 +1,19 @@
 package cargo.service;
 
 import cargo.domain.Cargo;
+import cargo.domain.CargoType;
+import cargo.domain.FoodCargo;
 import cargo.exception.unckecked.CargoDeleteConstraintViolationException;
 import cargo.repo.CargoRepo;
 import cargo.search.CargoSearchCondition;
 import transportation.domain.Transportation;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CargoServiceImpl implements CargoService {
 
@@ -95,4 +99,11 @@ public class CargoServiceImpl implements CargoService {
   public List<Cargo> search(CargoSearchCondition cargoSearchCondition) {
     return cargoRepo.search(cargoSearchCondition);
   }
+
+  @Override
+  public List <LocalDate> getUniqueExpirationDatesOfFoodCargosAfterDate (LocalDate date) {
+    return getAll().stream().filter(a -> a.getCargoType().equals(CargoType.FOOD)).map(a -> (FoodCargo) a)
+            .map(FoodCargo::getExpirationDate).distinct().filter(a -> a.isAfter(date)).collect(Collectors.toList());
+  }
+
 }

@@ -13,6 +13,7 @@ import carrier.service.CarrierService;
 import transportation.domain.Transportation;
 import transportation.service.TransportationService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +62,7 @@ public class InMemoryStorageInitor implements StorageInitor {
 
   private FoodCargo createFoodCargo(int index) {
     FoodCargo cargo = new FoodCargo();
-    cargo.setExpirationDate(new Date());
+    cargo.setExpirationDate(LocalDate.now());
     cargo.setStoreTemperature(index);
     cargo.setWeight(ThreadLocalRandom.current().nextInt(1, 100 + 1));
     cargo.setName("Milk");

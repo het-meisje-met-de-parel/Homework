@@ -24,6 +24,7 @@ import storage.initor.InitStorageType;
 import storage.initor.StorageInitor;
 import transportation.service.TransportationService;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -53,6 +54,10 @@ public class Application {
       demoExceptions();
 
       demoReportService();
+
+      System.out.println();
+      System.out.println("Тестирование большого стрима");
+      System.out.println(cargoService.getUniqueExpirationDatesOfFoodCargosAfterDate(LocalDate.now()));
     } catch (InitStorageException e) {
       e.getCause().printStackTrace();
     }catch (Exception e){

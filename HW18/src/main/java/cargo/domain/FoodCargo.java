@@ -1,10 +1,11 @@
 package cargo.domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class FoodCargo extends Cargo {
 
-  private Date expirationDate;
+  private LocalDate expirationDate;
   private int storeTemperature;
 
   @Override
@@ -12,11 +13,11 @@ public class FoodCargo extends Cargo {
     return CargoType.FOOD;
   }
 
-  public Date getExpirationDate() {
+  public LocalDate getExpirationDate() {
     return expirationDate;
   }
 
-  public void setExpirationDate(Date expirationDate) {
+  public void setExpirationDate(LocalDate expirationDate) {
     this.expirationDate = expirationDate;
   }
 

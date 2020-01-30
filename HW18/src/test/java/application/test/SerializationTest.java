@@ -6,6 +6,7 @@ import static common.solutions.comparator.SimpleComparator.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -111,7 +112,7 @@ public class SerializationTest {
     food.setName(randString());
     food.setWeight(randInt());
     food.setStoreTemperature(randInt());
-    food.setExpirationDate(new Date());
+    food.setExpirationDate(LocalDate.now());
 
     return food;
   }

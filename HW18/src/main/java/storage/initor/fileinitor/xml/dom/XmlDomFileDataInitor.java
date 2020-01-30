@@ -23,6 +23,7 @@ import transportation.domain.Transportation;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,7 +89,7 @@ public class XmlDomFileDataInitor extends BaseFileInitor {
     Cargo cargo;
     if (CargoType.FOOD.equals(cargoType)) {
       FoodCargo foodCargo = new FoodCargo();
-      Date expirationDate = JavaUtilDateUtils
+      LocalDate expirationDate = JavaUtilDateUtils
           .valueOf(getOnlyElementTextContent(cargoElem, "expirationDate"));
       foodCargo.setExpirationDate(expirationDate);
       foodCargo.setStoreTemperature(
