@@ -1,0 +1,10 @@
+/build/
+
+
+.settings/
+.classpath
+.project
+
+/serialized
+/target/
+/bin/
