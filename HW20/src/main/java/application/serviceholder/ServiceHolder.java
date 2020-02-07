@@ -2,6 +2,7 @@ package application.serviceholder;
 
 import cargo.repo.impl.CargoArrayRepoImpl;
 import cargo.repo.impl.CargoCollectionRepoImpl;
+import cargo.repo.impl.CargoDatabaseRepoImpl;
 import cargo.service.CargoService;
 import cargo.service.CargoServiceImpl;
 import carrier.repo.impl.CarrierArrayRepoImpl;
@@ -26,6 +27,8 @@ public final class ServiceHolder {
     cargoService = initedServiceHolder.cargoService;
     carrierService = initedServiceHolder.carrierService;
     transportationService = initedServiceHolder.transportationService;
+    
+    cargoService.setTransportationService (transportationService);
   }
 
   public static void initServiceHolder(StorageType storageType) {
@@ -60,6 +63,13 @@ public final class ServiceHolder {
             new CarrierServiceImpl(new CarrierArrayRepoImpl()),
             new CargoServiceImpl(new CargoArrayRepoImpl()),
             new TransportationServiceImpl(new TransportationArrayRepoImpl()));
+      }
+      
+      case DATABASE: {
+          return new SimpleServiceHolder(
+              new CarrierServiceImpl(new CarrierCollectionRepoImpl()),
+              new CargoServiceImpl(new CargoDatabaseRepoImpl()),
+              new TransportationServiceImpl(new TransportationCollectionRepoImpl()));
       }
 
       default: {

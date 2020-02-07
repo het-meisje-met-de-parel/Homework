@@ -1,16 +1,19 @@
 package application;
 
-import static java.util.Collections.singletonList;
-import static cargo.domain.CargoField.NAME;
-import static cargo.domain.CargoField.WEIGHT;
-import static common.solutions.search.OrderType.ASC;
-import static common.solutions.search.OrderType.DESC;
-import static storage.initor.StorageInitorFactory.getStorageInitor;
+import static cargo.domain.CargoField.*;
+import static common.solutions.search.OrderType.*;
+import static java.util.Collections.*;
+import static storage.initor.StorageInitorFactory.*;
+
+import java.time.LocalDate;
+import java.util.*;
 
 import application.serviceholder.ServiceHolder;
 import application.serviceholder.StorageType;
 import cargo.domain.Cargo;
 import cargo.domain.CargoField;
+import cargo.domain.ClothersCargo;
+import cargo.domain.FoodCargo;
 import cargo.search.CargoSearchCondition;
 import cargo.service.CargoService;
 import carrier.service.CarrierService;
@@ -24,13 +27,6 @@ import storage.initor.InitStorageType;
 import storage.initor.StorageInitor;
 import transportation.service.TransportationService;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-
 public class Application {
 
   private static final String SEPARATOR = "--------------";
@@ -41,13 +37,14 @@ public class Application {
   public static void main(String[] args) {
     try {
       ServiceHolder.initServiceHolder(StorageType.COLLECTION);
-      cargoService = ServiceHolder.getInstance().getCargoService();
       carrierService = ServiceHolder.getInstance().getCarrierService();
       transportationService = ServiceHolder.getInstance().getTransportationService();
+      cargoService = ServiceHolder.getInstance().getCargoService();
 
-      StorageInitor storageInitor = getStorageInitor(InitStorageType.MULTI_THREAD);
+      StorageInitor storageInitor = getStorageInitor(InitStorageType.XML_SAX_FILE);
       storageInitor.initStorage();
 
+      testTransactionalSave ();
       printStorageData();
       demoSearchOperations();
       demoSortOperations();
@@ -59,10 +56,26 @@ public class Application {
       System.out.println("Тестирование большого стрима");
       System.out.println(cargoService.getUniqueExpirationDatesOfFoodCargosAfterDate(LocalDate.now()));
     } catch (InitStorageException e) {
-      e.getCause().printStackTrace();
+      e.printStackTrace();
     }catch (Exception e){
       e.printStackTrace();
     }
+  }
+
+  private static void testTransactionalSave () {
+      var cargo1 = new FoodCargo ();
+      cargo1.setName ("MELON");
+      cargo1.setWeight (1623);
+      cargo1.setExpirationDate (LocalDate.now ().plusWeeks (11));
+      cargo1.setStoreTemperature (2);
+      
+      var cargo2 = new ClothersCargo ();
+      cargo2.setName ("SLIPPERS");
+      cargo2.setWeight (743);
+      cargo2.setSize ("38");
+      cargo2.setMaterial ("WOOL");
+      
+      cargoService.saveSeveral (List.of (cargo1, cargo2));
   }
 
   private static void demoSearchOperations() {
@@ -136,8 +149,7 @@ public class Application {
     cargoSearchCondition.setSortFields(new LinkedHashSet<>(sortFields));
     System.out.println(
         "---------Sorting '" + getOrderingConditionsAsString(cargoSearchCondition) + "'------");
-    cargoService.search(cargoSearchCondition);
-    cargoService.printAll();
+    CollectionUtils.printCollection (cargoService.search(cargoSearchCondition));
     System.out.println();
   }
 

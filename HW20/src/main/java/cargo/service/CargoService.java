@@ -3,6 +3,7 @@ package cargo.service;
 import cargo.domain.Cargo;
 import cargo.search.CargoSearchCondition;
 import common.business.service.CommonService;
+import transportation.service.TransportationService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,5 +18,7 @@ public interface CargoService extends CommonService<Cargo, Long> {
     List<Cargo> search(CargoSearchCondition cargoSearchCondition);
 
     public List <LocalDate> getUniqueExpirationDatesOfFoodCargosAfterDate (LocalDate date);
+    
+    void setTransportationService (TransportationService transportationService);
 
 }
