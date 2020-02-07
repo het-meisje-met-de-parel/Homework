@@ -24,6 +24,12 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
                 statement.executeUpdate ();
             } catch (SQLException sqle) {
                 throw new RuntimeException (sqle);
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    throw new RuntimeException (sqle);
+                }
             }
         });
     }
@@ -44,11 +50,17 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
                 while (result.next()) {
                     cargos.add(convertToCargo(result));
                 }
-
+                
                 return cargos;
             } catch (SQLException sqle) {
                 System.err.println (sqle);
                 return null;
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    System.err.println (sqle);
+                }
             }
         }).orElse(List.of ()).toArray (Cargo []::new);
     }
@@ -82,6 +94,12 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
             } catch (SQLException sqle) {
                 System.err.println (sqle);
                 return null;
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    System.err.println (sqle);
+                }
             }
         });
     }
@@ -117,6 +135,12 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
                 statement.executeUpdate ();
             } catch (SQLException sqle) {
                 System.err.println (sqle);
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    System.err.println (sqle);
+                }
             }
         });
     }
@@ -154,6 +178,12 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
             } catch (SQLException sqle) {
                 System.err.println (sqle);
                 return false;
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    System.err.println (sqle);
+                }
             }
         }).orElse (false);
     }
@@ -170,6 +200,12 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
             } catch (SQLException sqle) {
                 System.err.println (sqle);
                 return false;
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    System.err.println (sqle);
+                }
             }
         }).orElse (false);
     }
@@ -188,6 +224,12 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
             } catch (SQLException sqle) {
                 System.err.println (sqle);
                 return null;
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    System.err.println (sqle);
+                }
             }
         }).orElse(List.of ());
     }
@@ -203,6 +245,12 @@ public class CargoDatabaseRepoImpl extends CommonCargoRepo{
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
                 return null;
+            } finally {                
+                try {
+                    statement.close ();
+                } catch (SQLException sqle) {
+                    System.err.println (sqle);
+                }
             }
         }).orElse(0);
     }
