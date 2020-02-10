@@ -79,6 +79,7 @@ public final class ServiceHolder {
           
           var cargoService = new CargoServiceImpl(cargoRepo);
           cargoService.setTransportationService (transportationService);
+          cargoService.setCarrierService (carrierService);
           
           return new SimpleServiceHolder(
               carrierService,

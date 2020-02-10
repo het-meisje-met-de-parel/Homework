@@ -13,7 +13,10 @@ import application.db.DBConnectionProducer;
 import cargo.domain.Cargo;
 import cargo.repo.CargoMapper;
 import cargo.search.CargoSearchCondition;
+import carrier.domain.Carrier;
+import carrier.repo.CarrierMapper;
 import common.solutions.utils.CollectionUtils;
+import common.solutions.utils.Tup4;
 
 public class CargoDBRepoImpl extends CommonCargoRepo {
     
@@ -168,6 +171,30 @@ public class CargoDBRepoImpl extends CommonCargoRepo {
         }
         
         return reference.get ();
+    }
+    
+    @Override
+    public void saveCargoAndCarrier (Cargo cargo, Carrier carrier) {
+        try {
+            String query1 = "INSERT `cargo` ( "
+                          + "  `id`, `name`, `weight`, `cargo_type`, "
+                          + "  `size`, `material`, `expiration_date`, "
+                          + "  `store_temperature`"
+                          + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String query2 = "INSERT `carrier` ( "
+                          + "  `id`, `name`, `address`, `carrier_type` "
+                          + ") VALUES (?, ?, ?, ?)";
+            DBConnectionProducer.queries (true, 
+                Tup4.of (query1, true, (st, __) -> {
+                    CargoMapper.initInsertStatement (st, cargo);
+                }, (__, ___) -> {}),
+                Tup4.of (query2, true, (st, __) -> {
+                    CarrierMapper.initInsertStatement (st, carrier);
+                }, (__, ___) -> {})
+            );
+        } catch (SQLException sqle) {
+            throw new RuntimeException (sqle);
+        }
     }
     
 }

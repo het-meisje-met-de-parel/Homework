@@ -7,6 +7,7 @@ import static storage.Storage.cargoIndex;
 
 import cargo.domain.Cargo;
 import cargo.search.CargoSearchCondition;
+import carrier.domain.Carrier;
 import common.solutions.utils.ArrayUtils;
 import common.solutions.utils.CollectionUtils;
 import storage.IdGenerator;
@@ -144,6 +145,11 @@ public class CargoArrayRepoImpl extends CommonCargoRepo {
   @Override
   public int countAll() {
     return getAll().size();
+  }
+
+  @Override
+  public void saveCargoAndCarrier (Cargo cargo, Carrier carrier) {
+      throw new UnsupportedOperationException ();
   }
 
 }

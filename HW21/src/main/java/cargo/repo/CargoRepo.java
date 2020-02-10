@@ -2,6 +2,7 @@ package cargo.repo;
 
 import cargo.domain.Cargo;
 import cargo.search.CargoSearchCondition;
+import carrier.domain.Carrier;
 import common.business.repo.CommonRepo;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface CargoRepo extends CommonRepo<Cargo, Long> {
   Cargo[] findByName(String name);
 
   List<Cargo> search(CargoSearchCondition cargoSearchCondition);
+  
+  void saveCargoAndCarrier (Cargo cargo, Carrier carrier);
+  
 }

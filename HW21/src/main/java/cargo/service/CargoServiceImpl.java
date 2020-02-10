@@ -13,6 +13,8 @@ import cargo.domain.FoodCargo;
 import cargo.exception.unckecked.CargoDeleteConstraintViolationException;
 import cargo.repo.CargoRepo;
 import cargo.search.CargoSearchCondition;
+import carrier.domain.Carrier;
+import carrier.service.CarrierService;
 import lombok.Setter;
 import storage.IdGenerator;
 import transportation.domain.Transportation;
@@ -22,6 +24,9 @@ public class CargoServiceImpl implements CargoService {
 
   @Setter
   private TransportationService transportationService;
+  
+  @Setter
+  private CarrierService carrierService;
     
   private CargoRepo cargoRepo;
 
@@ -119,6 +124,14 @@ public class CargoServiceImpl implements CargoService {
   public List <LocalDate> getUniqueExpirationDatesOfFoodCargosAfterDate (LocalDate date) {
     return getAll().stream().filter(a -> a.getCargoType().equals(CargoType.FOOD)).map(a -> (FoodCargo) a)
             .map(FoodCargo::getExpirationDate).distinct().filter(a -> a.isAfter(date)).collect(Collectors.toList());
+  }
+
+  @Override
+  public void saveCargoAndCarrier (Cargo cargo, Carrier carrier) {
+      carrierService.deleteById (carrier.getId ());
+      cargoRepo.deleteById (cargo.getId ());
+      
+      cargoRepo.saveCargoAndCarrier (cargo, carrier);
   }
 
 }

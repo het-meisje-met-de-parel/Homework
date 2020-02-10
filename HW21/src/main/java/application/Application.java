@@ -11,8 +11,11 @@ import application.serviceholder.ServiceHolder;
 import application.serviceholder.StorageType;
 import cargo.domain.Cargo;
 import cargo.domain.CargoField;
+import cargo.domain.FoodCargo;
 import cargo.search.CargoSearchCondition;
 import cargo.service.CargoService;
+import carrier.domain.Carrier;
+import carrier.domain.CarrierType;
 import carrier.service.CarrierService;
 import common.business.exception.checked.InitStorageException;
 import common.business.exception.checked.ReportException;
@@ -20,6 +23,7 @@ import common.solutions.search.OrderType;
 import common.solutions.utils.CollectionUtils;
 import reporting.ReportDefaultService;
 import reporting.ReportService;
+import storage.IdGenerator;
 import storage.initor.InitStorageType;
 import storage.initor.StorageInitor;
 import transportation.service.TransportationService;
@@ -58,6 +62,8 @@ public class Application {
       System.out.println();
       System.out.println("Тестирование большого стрима");
       System.out.println(cargoService.getUniqueExpirationDatesOfFoodCargosAfterDate(LocalDate.now()));
+      
+      demoTransactional ();
     } catch (InitStorageException e) {
       e.getCause().printStackTrace();
     }catch (Exception e){
@@ -173,4 +179,28 @@ public class Application {
     );
     reportService.exportData();
   }
+  
+  private static void demoTransactional () {
+      System.out.println();
+      System.out.println("Тестирование записи в транзакции");
+      
+      FoodCargo cargo = new FoodCargo ();
+      cargo.setId (IdGenerator.generateId ());
+      cargo.setName ("CAKE");
+      cargo.setWeight (974);
+      cargo.setStoreTemperature (+1);
+      cargo.setExpirationDate (LocalDate.now ().plusWeeks (12));
+      
+      Carrier carrier = new Carrier ();
+      carrier.setId (IdGenerator.generateId ());
+      carrier.setAddress ("[Address]");
+      carrier.setCarrierType (CarrierType.TRAIN);
+      carrier.setName ("Too-too");
+      
+      cargoService.saveCargoAndCarrier (cargo, carrier);
+      
+      System.out.println (carrierService.findById (carrier.getId ()));
+      System.out.println (cargoService.findById (cargo.getId ()));
+  }
+  
 }
