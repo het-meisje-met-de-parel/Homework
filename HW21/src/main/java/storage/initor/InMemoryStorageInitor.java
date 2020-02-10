@@ -1,7 +1,9 @@
 package storage.initor;
 
 
-import static common.solutions.utils.CollectionUtils.isNotEmpty;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import application.serviceholder.ServiceHolder;
 import cargo.domain.Cargo;
@@ -12,13 +14,6 @@ import carrier.domain.Carrier;
 import carrier.service.CarrierService;
 import transportation.domain.Transportation;
 import transportation.service.TransportationService;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class InMemoryStorageInitor implements StorageInitor {
 
@@ -39,7 +34,7 @@ public class InMemoryStorageInitor implements StorageInitor {
     initCargos();
     initCarriers();
     initTransportations();
-    appendTransportationsToCargos();
+    //appendTransportationsToCargos();
   }
 
   private void initCargos() {
@@ -106,6 +101,7 @@ public class InMemoryStorageInitor implements StorageInitor {
     return transportation;
   }
 
+  /*
   private void appendTransportationsToCargos() {
     List<Cargo> cargos = cargoService.getAll();
     List<Transportation> transportations = transportationService.getAll();
@@ -134,4 +130,5 @@ public class InMemoryStorageInitor implements StorageInitor {
 
     cargo.setTransportations(transportations);
   }
+  */
 }

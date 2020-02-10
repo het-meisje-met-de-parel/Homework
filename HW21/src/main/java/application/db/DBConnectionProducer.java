@@ -32,7 +32,7 @@ public class DBConnectionProducer {
             
             for (var task : tasks) {
                 var statement = connection.prepareStatement (task.T1);
-                task.T3.consume (statement, 0);
+                task.T3.consume (statement, -1);
                 
                 if (task.T2) {
                     task.T4.consume (null, statement.executeUpdate ());

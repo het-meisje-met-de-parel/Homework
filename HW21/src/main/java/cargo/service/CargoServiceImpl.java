@@ -1,13 +1,5 @@
 package cargo.service;
 
-import cargo.domain.Cargo;
-import cargo.domain.CargoType;
-import cargo.domain.FoodCargo;
-import cargo.exception.unckecked.CargoDeleteConstraintViolationException;
-import cargo.repo.CargoRepo;
-import cargo.search.CargoSearchCondition;
-import transportation.domain.Transportation;
-
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,8 +7,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import cargo.domain.Cargo;
+import cargo.domain.CargoType;
+import cargo.domain.FoodCargo;
+import cargo.exception.unckecked.CargoDeleteConstraintViolationException;
+import cargo.repo.CargoRepo;
+import cargo.search.CargoSearchCondition;
+import lombok.Setter;
+import storage.IdGenerator;
+import transportation.domain.Transportation;
+import transportation.service.TransportationService;
+
 public class CargoServiceImpl implements CargoService {
 
+  @Setter
+  private TransportationService transportationService;
+    
   private CargoRepo cargoRepo;
 
   public CargoServiceImpl(CargoRepo cargoRepo) {
@@ -25,7 +31,15 @@ public class CargoServiceImpl implements CargoService {
 
   @Override
   public void save(Cargo cargo) {
-    cargoRepo.save(cargo);
+    if (cargo.getId () == null) {
+        cargo.setId (IdGenerator.generateId ());
+    }
+    
+    if (cargoRepo.findById (cargo.getId ()).isPresent ()) {
+        update (cargo);
+    } else {
+        cargoRepo.save(cargo);
+    }
   }
 
   @Override
@@ -65,7 +79,8 @@ public class CargoServiceImpl implements CargoService {
     Optional<Cargo> cargoOptional = this.getByIdFetchingTransportations(id);
 
     if (cargoOptional.isPresent()) {
-      List<Transportation> transportations = cargoOptional.get().getTransportations();
+      Cargo cargo = cargoOptional.get ();
+      List<Transportation> transportations = transportationService.findByCargo (cargo);
       boolean hasTransportations = transportations != null && transportations.size() > 0;
       if (hasTransportations) {
         throw new CargoDeleteConstraintViolationException(id);

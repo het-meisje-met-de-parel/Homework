@@ -1,16 +1,16 @@
 package storage.initor.fileinitor;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import application.serviceholder.ServiceHolder;
 import cargo.domain.Cargo;
 import carrier.domain.Carrier;
 import storage.initor.StorageInitor;
 import transportation.domain.Transportation;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public abstract class BaseFileInitor implements StorageInitor {
 
@@ -23,19 +23,11 @@ public abstract class BaseFileInitor implements StorageInitor {
       Transportation transportation = parsedTransportation.transportation;
 
       if (cargo != null) {
-        List<Transportation> transportations =
-            cargo.getTransportations() == null ? new ArrayList<>() : cargo.getTransportations();
-        transportations.add(transportation);
         transportation.setCargo(cargo);
-        cargo.setTransportations(transportations);
       }
 
       if (carrier != null) {
-        List<Transportation> transportations =
-            carrier.getTransportations() == null ? new ArrayList<>() : carrier.getTransportations();
-        transportations.add(transportation);
         transportation.setCarrier(carrier);
-        carrier.setTransportations(transportations);
       }
     }
   }

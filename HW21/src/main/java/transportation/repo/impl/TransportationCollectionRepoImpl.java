@@ -9,7 +9,12 @@ import transportation.repo.TransportationRepo;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import cargo.domain.Cargo;
+import carrier.domain.Carrier;
 
 public class TransportationCollectionRepoImpl implements TransportationRepo {
 
@@ -58,5 +63,17 @@ public class TransportationCollectionRepoImpl implements TransportationRepo {
   @Override
   public int countAll() {
     return transportationCollection.size();
+  }
+  
+  @Override
+  public List <Transportation> findByCargo (Cargo cargo) {
+      return getAll ().stream ().filter (tr -> Objects.equals (cargo.getId (), tr.getCargo ().getId ()))
+              . collect (Collectors.toList ());
+  }
+  
+  @Override
+  public List <Transportation> findByCarrier (Carrier carrier) {
+    return getAll ().stream ().filter (tr -> Objects.equals (carrier.getId (), tr.getCargo ().getId ()))
+         . collect (Collectors.toList ());
   }
 }

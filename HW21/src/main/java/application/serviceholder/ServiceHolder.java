@@ -7,10 +7,12 @@ import cargo.service.CargoService;
 import cargo.service.CargoServiceImpl;
 import carrier.repo.impl.CarrierArrayRepoImpl;
 import carrier.repo.impl.CarrierCollectionRepoImpl;
+import carrier.repo.impl.CarrierDBRepoImpl;
 import carrier.service.CarrierService;
 import carrier.service.CarrierServiceImpl;
 import transportation.repo.impl.TransportationArrayRepoImpl;
 import transportation.repo.impl.TransportationCollectionRepoImpl;
+import transportation.repo.impl.TransportationDBRepoImpl;
 import transportation.service.TransportationService;
 import transportation.service.TransportationServiceImpl;
 
@@ -63,10 +65,26 @@ public final class ServiceHolder {
       }
       
       case DATABASE: {
+          var tranportationRepo = new TransportationDBRepoImpl();
+          var carrierRepo = new CarrierDBRepoImpl();
+          var cargoRepo = new CargoDBRepoImpl();
+          
+          tranportationRepo.setCarrierRepo (carrierRepo);
+          tranportationRepo.setCargoRepo (cargoRepo);
+          
+          var transportationService = new TransportationServiceImpl(tranportationRepo);
+          
+          var carrierService = new CarrierServiceImpl(carrierRepo);
+          carrierService.setTransportationService (transportationService);
+          
+          var cargoService = new CargoServiceImpl(cargoRepo);
+          cargoService.setTransportationService (transportationService);
+          
           return new SimpleServiceHolder(
-              new CarrierServiceImpl(new CarrierArrayRepoImpl()),
-              new CargoServiceImpl(new CargoDBRepoImpl()),
-              new TransportationServiceImpl(new TransportationArrayRepoImpl()));
+              carrierService,
+              cargoService,
+              transportationService
+          );
         }
 
       case COLLECTION: {

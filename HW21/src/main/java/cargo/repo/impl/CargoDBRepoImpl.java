@@ -16,7 +16,7 @@ import cargo.search.CargoSearchCondition;
 import common.solutions.utils.CollectionUtils;
 
 public class CargoDBRepoImpl extends CommonCargoRepo {
-
+    
     @Override
     public Optional <Cargo> getByIdFetchingTransportations (long id) {
         return findById (id);

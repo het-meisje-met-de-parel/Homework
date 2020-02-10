@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import cargo.domain.Cargo;
 import cargo.domain.CargoType;
@@ -37,7 +36,6 @@ public class CargoMapper {
         cargo.setWeight(result.getInt("weight"));
         cargo.setName(result.getString("name"));
         cargo.setId(result.getLong ("id"));
-        cargo.setTransportations(new ArrayList <> ());
 
         return cargo;
     }

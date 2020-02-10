@@ -1,15 +1,11 @@
 package cargo.domain;
 
 import common.business.domain.BaseEntity;
-import transportation.domain.Transportation;
-
-import java.util.List;
 
 public abstract class Cargo extends BaseEntity {
 
   protected String name;
   protected int weight;
-  protected List<Transportation> transportations;
   protected CargoType cargoType;
 
   public Cargo() {
@@ -34,14 +30,6 @@ public abstract class Cargo extends BaseEntity {
     this.weight = weight;
   }
 
-  public List<Transportation> getTransportations() {
-    return transportations;
-  }
-
-  public void setTransportations(List<Transportation> transportations) {
-    this.transportations = transportations;
-  }
-
   @Override
   public String toString() {
     return "Cargo{" +
@@ -49,7 +37,6 @@ public abstract class Cargo extends BaseEntity {
         ", name='" + name + '\'' +
         ", weight=" + weight +
         ", cargoType=" + cargoType +
-        ", transportations=" + transportations +
         '}';
   }
 }

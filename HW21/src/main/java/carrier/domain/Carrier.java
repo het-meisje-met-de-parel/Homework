@@ -2,16 +2,12 @@ package carrier.domain;
 
 
 import common.business.domain.BaseEntity;
-import transportation.domain.Transportation;
-
-import java.util.List;
 
 public class Carrier extends BaseEntity {
 
   private String name;
   private String address;
   private CarrierType carrierType;
-  private List<Transportation> transportations;
 
   public String getName() {
     return name;
@@ -35,14 +31,6 @@ public class Carrier extends BaseEntity {
 
   public void setCarrierType(CarrierType carrierType) {
     this.carrierType = carrierType;
-  }
-
-  public List<Transportation> getTransportations() {
-    return transportations;
-  }
-
-  public void setTransportations(List<Transportation> transportations) {
-    this.transportations = transportations;
   }
 
   @Override

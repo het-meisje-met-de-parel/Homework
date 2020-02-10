@@ -1,10 +1,13 @@
 package transportation.service;
 
-import transportation.domain.Transportation;
-import transportation.repo.TransportationRepo;
-
 import java.util.List;
 import java.util.Optional;
+
+import cargo.domain.Cargo;
+import carrier.domain.Carrier;
+import storage.IdGenerator;
+import transportation.domain.Transportation;
+import transportation.repo.TransportationRepo;
 
 public class TransportationServiceImpl implements TransportationService {
 
@@ -30,7 +33,15 @@ public class TransportationServiceImpl implements TransportationService {
 
   @Override
   public void save(Transportation transportation) {
-    transportationRepo.save(transportation);
+    if (transportation.getId () == null) {
+        transportation.setId (IdGenerator.generateId ());
+    }
+    
+    if (transportationRepo.findById (transportation.getId ()).isPresent ()) {
+        update (transportation);
+    } else {        
+        transportationRepo.save(transportation);
+    }
   }
 
   @Override
@@ -56,4 +67,15 @@ public class TransportationServiceImpl implements TransportationService {
   public int countAll() {
     return transportationRepo.countAll();
   }
+
+  @Override
+  public List <Transportation> findByCargo (Cargo cargo) {
+    return transportationRepo.findByCargo (cargo);
+  }
+  
+  @Override
+  public List <Transportation> findByCarrier (Carrier carrier) {
+    return transportationRepo.findByCarrier (carrier);
+  }
+    
 }

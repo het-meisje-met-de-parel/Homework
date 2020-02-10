@@ -15,6 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import cargo.domain.Cargo;
+import carrier.domain.Carrier;
+
 public class TransportationArrayRepoImpl implements TransportationRepo {
 
   private static final Transportation[] EMPTY_TRANSPORTATION_ARRAY = new Transportation[0];
@@ -96,5 +99,15 @@ public class TransportationArrayRepoImpl implements TransportationRepo {
       ArrayUtils.removeElement(transportationArray, indexToDelete);
       return true;
     }
+  }
+
+  @Override
+  public List <Transportation> findByCargo (Cargo cargo) {
+      throw new UnsupportedOperationException ();
+  }
+  
+  @Override
+  public List <Transportation> findByCarrier (Carrier carrier) {
+    throw new UnsupportedOperationException ();
   }
 }

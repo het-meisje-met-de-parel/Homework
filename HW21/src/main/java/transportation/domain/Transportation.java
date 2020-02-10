@@ -1,11 +1,10 @@
 package transportation.domain;
 
+import java.time.LocalDate;
+
 import cargo.domain.Cargo;
 import carrier.domain.Carrier;
 import common.business.domain.BaseEntity;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 public class Transportation extends BaseEntity {
 

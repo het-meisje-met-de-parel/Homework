@@ -1,17 +1,23 @@
 package carrier.service;
 
-import carrier.domain.Carrier;
-import carrier.exception.unchecked.CarrierDeleteConstraintViolationException;
-import carrier.repo.CarrierRepo;
-import transportation.domain.Transportation;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import carrier.domain.Carrier;
+import carrier.exception.unchecked.CarrierDeleteConstraintViolationException;
+import carrier.repo.CarrierRepo;
+import lombok.Setter;
+import storage.IdGenerator;
+import transportation.domain.Transportation;
+import transportation.service.TransportationService;
+
 public class CarrierServiceImpl implements CarrierService {
 
+  @Setter
+  private TransportationService transportationService;
+    
   private CarrierRepo carrierRepo;
 
   public CarrierServiceImpl(
@@ -21,7 +27,15 @@ public class CarrierServiceImpl implements CarrierService {
 
   @Override
   public void save(Carrier carrier) {
-    carrierRepo.save(carrier);
+    if (carrier.getId () == null) {
+        carrier.setId (IdGenerator.generateId ());
+    }
+    
+    if (carrierRepo.findById (carrier.getId ()).isPresent ()) {
+        update (carrier);
+    } else {
+        carrierRepo.save(carrier);        
+    }
   }
 
   @Override
@@ -64,7 +78,7 @@ public class CarrierServiceImpl implements CarrierService {
     Optional<Carrier> carrier = this.getByIdFetchingTransportations(id);
 
     if (carrier.isPresent()) {
-      List<Transportation> transportations = carrier.get().getTransportations();
+      List<Transportation> transportations = transportationService.findByCarrier (carrier.get ());
       boolean hasTransportations = transportations != null && transportations.size() > 0;
       if (hasTransportations) {
         throw new CarrierDeleteConstraintViolationException(id);

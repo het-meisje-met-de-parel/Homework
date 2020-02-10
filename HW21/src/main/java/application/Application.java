@@ -136,8 +136,8 @@ public class Application {
     cargoSearchCondition.setSortFields(new LinkedHashSet<>(sortFields));
     System.out.println(
         "---------Sorting '" + getOrderingConditionsAsString(cargoSearchCondition) + "'------");
-    cargoService.search(cargoSearchCondition);
-    cargoService.printAll();
+    CollectionUtils.printCollection (cargoService.search(cargoSearchCondition));
+    //cargoService.printAll();
     System.out.println();
   }
 
@@ -153,8 +153,9 @@ public class Application {
       System.out.println("Cargo details:");
       System.out.println("id: " + cargo.getId());
       System.out.println("name: " + cargo.getName());
-      System.out.println("total transportations: " + (cargo.getTransportations() != null ? cargo
-          .getTransportations().size() : 0));
+      var cargoTransportations = transportationService.findByCargo (cargo);
+      System.out.println("total transportations: " + (cargoTransportations != null 
+              ? cargoTransportations.size() : 0));
       System.out.println();
       try {
         cargoService.deleteById(cargo.getId());
