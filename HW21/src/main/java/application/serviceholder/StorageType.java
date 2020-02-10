@@ -1,5 +1,5 @@
 package application.serviceholder;
 
 public enum StorageType {
-  ARRAY, COLLECTION
+  ARRAY, COLLECTION, DATABASE
 }

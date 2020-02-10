@@ -2,6 +2,7 @@ package application.serviceholder;
 
 import cargo.repo.impl.CargoArrayRepoImpl;
 import cargo.repo.impl.CargoCollectionRepoImpl;
+import cargo.repo.impl.CargoDBRepoImpl;
 import cargo.service.CargoService;
 import cargo.service.CargoServiceImpl;
 import carrier.repo.impl.CarrierArrayRepoImpl;
@@ -54,21 +55,29 @@ public final class ServiceHolder {
 
   private SimpleServiceHolder getInitedServiceHolder(StorageType storageType) {
     switch (storageType) {
-
       case ARRAY: {
         return new SimpleServiceHolder(
             new CarrierServiceImpl(new CarrierArrayRepoImpl()),
             new CargoServiceImpl(new CargoArrayRepoImpl()),
             new TransportationServiceImpl(new TransportationArrayRepoImpl()));
       }
+      
+      case DATABASE: {
+          return new SimpleServiceHolder(
+              new CarrierServiceImpl(new CarrierArrayRepoImpl()),
+              new CargoServiceImpl(new CargoDBRepoImpl()),
+              new TransportationServiceImpl(new TransportationArrayRepoImpl()));
+        }
 
-      default: {
+      case COLLECTION: {
         return new SimpleServiceHolder(
             new CarrierServiceImpl(new CarrierCollectionRepoImpl()),
             new CargoServiceImpl(new CargoCollectionRepoImpl()),
             new TransportationServiceImpl(new TransportationCollectionRepoImpl()));
       }
     }
+    
+    throw new IllegalStateException ("Invalid storage type");
   }
 
   public CarrierService getCarrierService() {

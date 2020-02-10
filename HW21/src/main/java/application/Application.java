@@ -40,7 +40,7 @@ public class Application {
 
   public static void main(String[] args) {
     try {
-      ServiceHolder.initServiceHolder(StorageType.COLLECTION);
+      ServiceHolder.initServiceHolder(StorageType.DATABASE);
       cargoService = ServiceHolder.getInstance().getCargoService();
       carrierService = ServiceHolder.getInstance().getCarrierService();
       transportationService = ServiceHolder.getInstance().getTransportationService();
